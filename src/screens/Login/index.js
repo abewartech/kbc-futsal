@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
-import {StyleSheet, Image, Dimensions, View} from 'react-native';
-import {Text} from 'react-native-ui-kitten';
+import {StyleSheet, View} from 'react-native';
+import {TabView, Tab, Icon} from 'react-native-ui-kitten';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginForm from '../../components/LoginForm';
+import SignupForm from '../../components/SignupForm';
 import Color from '../../constants/Color';
-const logo = require('../../../assets/images/yamaha.png');
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+
+const DashboardIcon = style => <Icon {...style} name="layout" />;
 
 class Login extends Component {
   static navigationOptions = ({navigation}) => {
@@ -18,27 +20,47 @@ class Login extends Component {
     };
   };
 
+  state = {
+    selectedIndex: 0,
+  };
+
+  onSelect = selectedIndex => {
+    this.setState({selectedIndex});
+  };
+
+  shouldLoadTabContent = index => {
+    return index === this.state.selectedIndex;
+  };
+
   render() {
     return (
       <KeyboardAwareScrollView
         style={styles.mainContainer}
         contentContainerStyle={styles.contentContainer}
         enableOnAndroid>
-        <View style={styles.container}>
-          <View style={styles.header}>
-            <Image source={logo} style={styles.logo} resizeMode="contain" />
-            <Text
-              category={wp(100) > 600 ? 'h1' : 'h5'}
-              appearance="alternative">
-              Sign In To Your Account
-            </Text>
-          </View>
-          <View style={styles.body}>
-            <View style={styles.form}>
-              <LoginForm navigation={this.props.navigation} />
+        <TabView
+          selectedIndex={this.state.selectedIndex}
+          onSelect={this.onSelect}
+          shouldLoadComponent={this.shouldLoadTabContent}>
+          <Tab title="Login" icon={DashboardIcon}>
+            <View style={styles.container}>
+              <View style={styles.body}>
+                <View style={styles.form}>
+                  <LoginForm navigation={this.props.navigation} />
+                </View>
+              </View>
             </View>
-          </View>
-        </View>
+          </Tab>
+          <Tab title="Sign Up" icon={DashboardIcon}>
+            <View style={styles.container}>
+              <View style={styles.body}>
+                <View style={styles.form}>
+                  <SignupForm navigation={this.props.navigation} />
+                </View>
+              </View>
+            </View>
+          </Tab>
+        </TabView>
       </KeyboardAwareScrollView>
     );
   }
@@ -57,21 +79,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
   },
-  header: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   body: {
     paddingTop: 30,
   },
   form: {
+    marginTop: 10,
     width: wp(80),
-    // height: hp(37),
-  },
-  logo: {
-    width: wp(30),
-    height: wp(30),
-    marginBottom: 20,
   },
 });
 

@@ -73,6 +73,19 @@ class LoginForm extends Component {
             onChangeText={username =>
               this.setState({username, isUsernameEmpty: false})
             }
+            placeholder="Nama"
+            style={styles.input}
+            caption={isUsernameEmpty ? 'Please Input Your Email' : null}
+            status={isUsernameEmpty ? 'danger' : null}
+            textStyle={{fontSize: wp(3.5)}}
+          />
+          <Input
+            autoCapitalize="none"
+            icon={this.renderUserIcon}
+            value={username}
+            onChangeText={username =>
+              this.setState({username, isUsernameEmpty: false})
+            }
             placeholder="Email"
             style={styles.input}
             caption={isUsernameEmpty ? 'Please Input Your Email' : null}
@@ -90,6 +103,22 @@ class LoginForm extends Component {
             textContentType="password"
             secureTextEntry={!this.state.showPass}
             placeholder="Password"
+            style={styles.input}
+            caption={isPassEmpty ? 'Please Input Your Password' : null}
+            status={isPassEmpty ? 'danger' : null}
+            textStyle={{fontSize: wp(3.5)}}
+          />
+          <Input
+            autoCapitalize="none"
+            icon={this.renderPasswordIcon}
+            onIconPress={this.onPasswordIconPress}
+            value={password}
+            onChangeText={password =>
+              this.setState({password, isPassEmpty: false})
+            }
+            textContentType="password"
+            secureTextEntry={!this.state.showPass}
+            placeholder="Confirm Password"
             style={styles.input}
             caption={isPassEmpty ? 'Please Input Your Password' : null}
             status={isPassEmpty ? 'danger' : null}

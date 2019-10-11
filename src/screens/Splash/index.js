@@ -39,7 +39,7 @@ class Splash extends React.Component {
         } else {
           credentialStore.setUserCredentials(id, username, role, token);
           setTimeout(() => {
-            navigate('Activity');
+            navigate('Home');
           }, 2000);
         }
       }

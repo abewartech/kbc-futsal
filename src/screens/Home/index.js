@@ -34,51 +34,9 @@ class Activity extends Component {
     };
   };
 
-  componentDidMount() {
-    const {lineStore, credentialStore} = this.props.rootStore;
-    lineStore.getLine(credentialStore.token);
-  }
-
   setModalVisible = () => {
     const modalVisible = !this.state.modalVisible;
     this.setState({modalVisible});
-  };
-
-  renderSelectElement = () => {
-    const {allLine} = this.props.rootStore.lineStore;
-    const lineItems = allLine.map(line => {
-      return {text: 'Line - ' + line.name, id: line._id};
-    });
-    const dropdownIcon = style => (
-      <Icon {...style} name="arrow-ios-downward" fill="#aaa" />
-    );
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <TopNavigation
-          title="Activity List"
-          titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: 20, backgroundColor: Color.primary}}
-          alignment="center"
-          rightControls={this.renderRightControl()}
-        />
-        <Layout level="3" style={styles.containerLine}>
-          <Select
-            label="Select Line :"
-            placeholder="Select Line"
-            icon={dropdownIcon}
-            data={lineItems}
-            status="warning"
-            selectedOption={this.state.selectedLine}
-            onSelect={selectedLine => this.setState({selectedLine})}
-            style={styles.selectLine}
-          />
-          <Button onPress={this.handleSubmit} style={styles.btnSubmit}>
-            SUBMIT
-          </Button>
-        </Layout>
-      </SafeAreaView>
-    );
   };
 
   handleSubmit = () => {
@@ -152,14 +110,12 @@ class Activity extends Component {
   };
 
   render() {
-    const {lineVisible, activityList, selectedLine} = this.state;
+    const {activityList} = this.state;
 
-    return lineVisible && !activityList.length ? (
-      this.renderSelectElement()
-    ) : (
+    return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
-          title="Activity List"
+          title="Home"
           titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
           style={{paddingVertical: 20, backgroundColor: Color.primary}}
           alignment="center"

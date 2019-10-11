@@ -55,7 +55,7 @@ export class Auth {
                 token,
               );
               socket.emit('userConnected', {id, role});
-              navigation.navigate('Activity');
+              navigation.navigate('Home');
             }
           });
         } else {
