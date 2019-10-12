@@ -12,35 +12,35 @@ class LoginForm extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
+      email: '',
       password: '',
       token: '',
       showPass: false,
-      isUsernameEmpty: false,
+      isemailEmpty: false,
       isPassEmpty: false,
     };
     this.iconRef = React.createRef();
   }
 
   loginHandler = () => {
-    const {username, password, isUsernameEmpty, isPassEmpty} = this.state;
+    const {email, password, isemailEmpty, isPassEmpty} = this.state;
     const {authStore} = this.props.rootStore;
 
-    if (username === '' && password === '') {
+    if (email === '' && password === '') {
       this.setState({
-        isUsernameEmpty: !isUsernameEmpty,
+        isemailEmpty: !isemailEmpty,
         isPassEmpty: !isPassEmpty,
       });
-    } else if (username === '') {
+    } else if (email === '') {
       this.setState({
-        isUsernameEmpty: !isUsernameEmpty,
+        isemailEmpty: !isemailEmpty,
       });
     } else if (password === '') {
       this.setState({
         isPassEmpty: !isPassEmpty,
       });
     } else {
-      authStore.login(username, password, this.props.navigation);
+      authStore.login(email, password, this.props.navigation);
     }
   };
 
@@ -52,7 +52,7 @@ class LoginForm extends Component {
     />
   );
 
-  renderUserIcon = () => <Icon name="person" />;
+  renderUserIcon = () => <Icon name="at-outline" />;
 
   onPasswordIconPress = () => {
     const showPass = !this.state.showPass;
@@ -62,21 +62,19 @@ class LoginForm extends Component {
 
   render() {
     const {authStore} = this.props.rootStore;
-    const {username, password, isPassEmpty, isUsernameEmpty} = this.state;
+    const {email, password, isPassEmpty, isemailEmpty} = this.state;
     return (
       <Layout style={styles.container}>
         <View style={styles.form}>
           <Input
             autoCapitalize="none"
             icon={this.renderUserIcon}
-            value={username}
-            onChangeText={username =>
-              this.setState({username, isUsernameEmpty: false})
-            }
+            value={email}
+            onChangeText={email => this.setState({email, isemailEmpty: false})}
             placeholder="Email"
             style={styles.input}
-            caption={isUsernameEmpty ? 'Please Input Your Email' : null}
-            status={isUsernameEmpty ? 'danger' : null}
+            caption={isemailEmpty ? 'Please Input Your Email' : null}
+            status={isemailEmpty ? 'danger' : null}
             textStyle={{fontSize: wp(3.5)}}
           />
           <Input

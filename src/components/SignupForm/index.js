@@ -8,94 +8,114 @@ import {
 } from 'react-native-responsive-screen';
 import Color from '../../constants/Color';
 
-class LoginForm extends Component {
+class SignupForm extends Component {
   constructor() {
     super();
     this.state = {
-      username: '',
+      name: '',
+      email: '',
       password: '',
+      conPassword: '',
       token: '',
-      showPass: false,
-      isUsernameEmpty: false,
+      isemailEmpty: false,
+      isnameEmpty: false,
       isPassEmpty: false,
+      isConEmpty: false,
     };
     this.iconRef = React.createRef();
   }
 
-  loginHandler = () => {
-    const {username, password, isUsernameEmpty, isPassEmpty} = this.state;
+  signupHandler = () => {
+    const {
+      name,
+      email,
+      password,
+      conPassword,
+      isConEmpty,
+      isemailEmpty,
+      isPassEmpty,
+      isnameEmpty,
+    } = this.state;
     const {authStore} = this.props.rootStore;
 
-    if (username === '' && password === '') {
+    if (name === '' && email === '' && password === '' && conPassword === '') {
       this.setState({
-        isUsernameEmpty: !isUsernameEmpty,
+        isnameEmpty: !isnameEmpty,
+        isemailEmpty: !isemailEmpty,
         isPassEmpty: !isPassEmpty,
+        isConEmpty: !isConEmpty,
       });
-    } else if (username === '') {
+    } else if (name === '') {
       this.setState({
-        isUsernameEmpty: !isUsernameEmpty,
+        isnameEmpty: !isnameEmpty,
+      });
+    } else if (email === '') {
+      this.setState({
+        isemailEmpty: !isemailEmpty,
       });
     } else if (password === '') {
       this.setState({
         isPassEmpty: !isPassEmpty,
       });
+    } else if (conPassword === '') {
+      this.setState({
+        isConEmpty: !isConEmpty,
+      });
     } else {
-      authStore.login(username, password, this.props.navigation);
+      authStore.register(
+        name,
+        email,
+        password,
+        conPassword,
+        this.props.navigation,
+      );
     }
   };
 
-  renderPasswordIcon = () => (
-    <Icon
-      name={!this.state.showPass ? 'eye' : 'eye-off'}
-      animation="pulse"
-      ref={this.iconRef}
-    />
-  );
-
   renderUserIcon = () => <Icon name="person" />;
-
-  onPasswordIconPress = () => {
-    const showPass = !this.state.showPass;
-    this.setState({showPass});
-    this.iconRef.current.startAnimation();
-  };
+  renderEmailIcon = () => <Icon name="at-outline" />;
+  renderPassIcon = () => <Icon name="lock-outline" />;
 
   render() {
     const {authStore} = this.props.rootStore;
-    const {username, password, isPassEmpty, isUsernameEmpty} = this.state;
+    const {
+      name,
+      email,
+      password,
+      conPassword,
+      isConEmpty,
+      isPassEmpty,
+      isemailEmpty,
+      isnameEmpty,
+    } = this.state;
     return (
       <Layout style={styles.container}>
         <View style={styles.form}>
           <Input
             autoCapitalize="none"
             icon={this.renderUserIcon}
-            value={username}
-            onChangeText={username =>
-              this.setState({username, isUsernameEmpty: false})
-            }
+            value={name}
+            onChangeText={name => this.setState({name, isnameEmpty: false})}
             placeholder="Nama"
             style={styles.input}
-            caption={isUsernameEmpty ? 'Please Input Your Email' : null}
-            status={isUsernameEmpty ? 'danger' : null}
+            caption={isnameEmpty ? 'Isi Nama terlebih dahulu' : null}
+            status={isnameEmpty ? 'danger' : null}
             textStyle={{fontSize: wp(3.5)}}
           />
           <Input
             autoCapitalize="none"
-            icon={this.renderUserIcon}
-            value={username}
-            onChangeText={username =>
-              this.setState({username, isUsernameEmpty: false})
-            }
+            icon={this.renderEmailIcon}
+            value={email}
+            onChangeText={email => this.setState({email, isemailEmpty: false})}
             placeholder="Email"
             style={styles.input}
-            caption={isUsernameEmpty ? 'Please Input Your Email' : null}
-            status={isUsernameEmpty ? 'danger' : null}
+            caption={isemailEmpty ? 'Isi Email terlebih dahulu' : null}
+            status={isemailEmpty ? 'danger' : null}
             textStyle={{fontSize: wp(3.5)}}
           />
           <Input
             autoCapitalize="none"
-            icon={this.renderPasswordIcon}
-            onIconPress={this.onPasswordIconPress}
+            icon={this.renderPassIcon}
             value={password}
             onChangeText={password =>
               this.setState({password, isPassEmpty: false})
@@ -104,35 +124,34 @@ class LoginForm extends Component {
             secureTextEntry={!this.state.showPass}
             placeholder="Password"
             style={styles.input}
-            caption={isPassEmpty ? 'Please Input Your Password' : null}
+            caption={isPassEmpty ? 'Isi Password terlebih dahulu' : null}
             status={isPassEmpty ? 'danger' : null}
             textStyle={{fontSize: wp(3.5)}}
           />
           <Input
             autoCapitalize="none"
-            icon={this.renderPasswordIcon}
-            onIconPress={this.onPasswordIconPress}
-            value={password}
-            onChangeText={password =>
-              this.setState({password, isPassEmpty: false})
+            icon={this.renderPassIcon}
+            value={conPassword}
+            onChangeText={conPassword =>
+              this.setState({conPassword, isConEmpty: false})
             }
             textContentType="password"
             secureTextEntry={!this.state.showPass}
             placeholder="Confirm Password"
             style={styles.input}
-            caption={isPassEmpty ? 'Please Input Your Password' : null}
-            status={isPassEmpty ? 'danger' : null}
+            caption={isConEmpty ? 'Isi Confirm Password terlebih dahulu' : null}
+            status={isConEmpty ? 'danger' : null}
             textStyle={{fontSize: wp(3.5)}}
           />
         </View>
         {!authStore.isLoading ? (
           <Button
             style={styles.button}
-            onPress={() => this.loginHandler()}
+            onPress={() => this.signupHandler()}
             appearance="ghost"
             size={wp(100) > 600 ? 'giant' : 'large'}
             textStyle={{color: '#fff', fontSize: wp(3.5), padding: 5}}>
-            LOGIN
+            SIGN UP
           </Button>
         ) : (
           <TouchableOpacity
@@ -175,5 +194,5 @@ const styles = StyleSheet.create({
   },
 });
 
-LoginForm = inject('rootStore')(observer(LoginForm));
-export default LoginForm;
+SignupForm = inject('rootStore')(observer(SignupForm));
+export default SignupForm;

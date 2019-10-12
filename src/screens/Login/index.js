@@ -10,8 +10,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-const DashboardIcon = style => <Icon {...style} name="layout" />;
-
 class Login extends Component {
   static navigationOptions = ({navigation}) => {
     return {
@@ -32,6 +30,9 @@ class Login extends Component {
     return index === this.state.selectedIndex;
   };
 
+  renderLoginIcon = () => <Icon name="person-outline" />;
+  renderSignupIcon = () => <Icon name="person-add-outline" />;
+
   render() {
     return (
       <KeyboardAwareScrollView
@@ -41,8 +42,11 @@ class Login extends Component {
         <TabView
           selectedIndex={this.state.selectedIndex}
           onSelect={this.onSelect}
+          indicatorStyle={styles.indicatorStyle}
+          tabBarStyle={styles.tabBarStyle}
+          style={styles.tabView}
           shouldLoadComponent={this.shouldLoadTabContent}>
-          <Tab title="Login" icon={DashboardIcon}>
+          <Tab title="Login" icon={this.renderLoginIcon}>
             <View style={styles.container}>
               <View style={styles.body}>
                 <View style={styles.form}>
@@ -51,7 +55,7 @@ class Login extends Component {
               </View>
             </View>
           </Tab>
-          <Tab title="Sign Up" icon={DashboardIcon}>
+          <Tab title="Sign Up" icon={this.renderSignupIcon}>
             <View style={styles.container}>
               <View style={styles.body}>
                 <View style={styles.form}>
@@ -85,6 +89,15 @@ const styles = StyleSheet.create({
   form: {
     marginTop: 10,
     width: wp(80),
+  },
+  tabView: {
+    backgroundColor: Color.primary,
+  },
+  indicatorStyle: {
+    backgroundColor: '#40AAB9',
+  },
+  tabBarStyle: {
+    backgroundColor: 'white',
   },
 });
 

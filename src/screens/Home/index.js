@@ -2,28 +2,26 @@ import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {
   Layout,
-  Text,
   TopNavigation,
+  BottomNavigation,
+  BottomNavigationTab,
   Icon,
-  Select,
   Button,
-  TopNavigationAction,
+  ButtonGroup,
+  Modal,
+  Text,
 } from 'react-native-ui-kitten';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
-
-import Endpoint from '../../utils/Endpoint';
 import Color from '../../constants/Color';
-import ActivityList from '../../components/ActivityList';
 
 class Activity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lineVisible: true,
-      selectedLine: null,
-      activityList: [],
+      selectedIndex: 0,
+      modalVisible: false,
     };
   }
 
@@ -34,61 +32,33 @@ class Activity extends Component {
     };
   };
 
+  onTabSelect = selectedIndex => {
+    this.setState({selectedIndex});
+    if (selectedIndex === 3) this.setModalVisible();
+  };
+
   setModalVisible = () => {
     const modalVisible = !this.state.modalVisible;
     this.setState({modalVisible});
   };
 
-  handleSubmit = () => {
-    const {credentialStore, lineStore} = this.props.rootStore;
-    const selectedLine = parseInt(this.state.selectedLine.text.split(' - ')[1]);
-    fetch(
-      `${Endpoint.prod}/getactbyline/${selectedLine}`,
-      {
-        method: 'GET',
-        headers: {Authorization: 'Bearer ' + credentialStore.token},
-      },
-      {timeout: Endpoint.timeout},
-    )
-      .then(res => res.json())
-      .then(res => {
-        if (res.success) {
-          if (res.message.length) {
-            this.setState({
-              activityList: res.message,
-              lineVisible: false,
-            });
-          } else {
-            this.props.navigation.navigate('Input');
-            lineStore.setSelectedLine(selectedLine);
-          }
-        } else {
-          alert(res.message);
-        }
-      })
-      .catch(error => {
-        alert(error.toString().split('TypeError: ')[1]);
-      });
-  };
-
-  renderRightControl = props => {
+  renderModalElement = () => {
     return (
-      <View>
-        <TopNavigationAction
-          icon={this.renderLogoutIcon}
-          onPress={this.logoutHandler}
-        />
-      </View>
+      <Layout level="3" style={styles.modalContainer}>
+        <Text>Anda yakin ingin logout ?</Text>
+        <ButtonGroup>
+          <Button onPress={this.logoutHandler}>Ya</Button>
+          <Button onPress={this.setModalVisible}>Tidak</Button>
+        </ButtonGroup>
+      </Layout>
     );
-  };
-
-  renderLogoutIcon = style => {
-    return <Icon name="log-out" size={23} {...style} fill="#fff" />;
   };
 
   logoutHandler = () => {
     let userKeys = ['username', 'role', 'token'];
     const {credentialStore} = this.props.rootStore;
+    const modalVisible = !this.state.modalVisible;
+    this.setState({modalVisible});
     AsyncStorage.multiRemove(userKeys, err => {
       if (err) {
         alert(err);
@@ -102,40 +72,40 @@ class Activity extends Component {
     });
   };
 
-  handleCreateActivity = () => {
-    const {activityList} = this.state;
-    this.props.navigation.navigate('Input', {
-      selectedType: activityList[0].type,
-    });
-  };
-
+  renderBookingIcon = () => <Icon name="checkmark-square-outline" />;
+  renderHistoryIcon = () => <Icon name="clock-outline" />;
+  renderCekIcon = () => <Icon name="calendar-outline" />;
+  renderLogoutIcon = () => <Icon name="log-out-outline" />;
   render() {
-    const {activityList} = this.state;
-
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
-          title="Home"
+          title="Booking"
           titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
           style={{paddingVertical: 20, backgroundColor: Color.primary}}
           alignment="center"
-          rightControls={this.renderRightControl()}
         />
         <Layout style={styles.container}>
-          <View style={styles.row}>
-            <ActivityList
-              data={activityList}
-              navigation={this.props.navigation}
-            />
-          </View>
-          <View style={styles.row}>
-            {activityList.length < 2 ? (
-              <Button onPress={this.handleCreateActivity} size="large">
-                Create New Activity
-              </Button>
-            ) : null}
-          </View>
+          <Modal
+            allowBackdrop={true}
+            backdropStyle={{backgroundColor: 'black', opacity: 0.5}}
+            onBackdropPress={this.setModalVisible}
+            visible={this.state.modalVisible}>
+            {this.renderModalElement()}
+          </Modal>
         </Layout>
+        <BottomNavigation
+          selectedIndex={this.state.selectedIndex}
+          onSelect={this.onTabSelect}>
+          <BottomNavigationTab title="Booking" icon={this.renderBookingIcon} />
+          <BottomNavigationTab title="History" icon={this.renderHistoryIcon} />
+          <BottomNavigationTab title="Cek Jadwal" icon={this.renderCekIcon} />
+          <BottomNavigationTab
+            onSelect={this.logoutHandler}
+            title="Logout"
+            icon={this.renderLogoutIcon}
+          />
+        </BottomNavigation>
       </SafeAreaView>
     );
   }
@@ -160,6 +130,12 @@ const styles = StyleSheet.create({
   btnSubmit: {
     width: '68%',
     marginTop: 20,
+  },
+  modalContainer: {
+    width: 200,
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

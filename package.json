@@ -28,8 +28,7 @@
     "react-native-ui-kitten": "4.2.0-beta.2",
     "react-navigation": "^4.0.10",
     "react-navigation-drawer": "^2.2.2",
-    "react-navigation-stack": "^1.9.0",
-    "socket.io-client": "^2.3.0"
+    "react-navigation-stack": "^1.9.0"
   },
   "devDependencies": {
     "@babel/core": "7.6.3",
