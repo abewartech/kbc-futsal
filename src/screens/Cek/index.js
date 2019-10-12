@@ -11,10 +11,10 @@ import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
 
-class Home extends Component {
+class Cek extends Component {
   static navigationOptions = ({navigation}) => {
     return {
-      title: 'Home',
+      title: 'Cek Jadwal',
       header: null,
     };
   };
@@ -54,7 +54,7 @@ class Home extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
-          title="Booking"
+          title="Cek Jadwal"
           titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
           style={{paddingVertical: 20, backgroundColor: Color.primary}}
           alignment="center"
@@ -72,5 +72,5 @@ const styles = StyleSheet.create({
   },
 });
 
-Home = inject('rootStore')(observer(Home));
-export default Home;
+Cek = inject('rootStore')(observer(Cek));
+export default Cek;

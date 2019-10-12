@@ -15,6 +15,7 @@ class Login extends Component {
     return {
       title: 'Login',
       header: null,
+      tabBarVisible: false,
     };
   };
 
@@ -24,10 +25,6 @@ class Login extends Component {
 
   onSelect = selectedIndex => {
     this.setState({selectedIndex});
-  };
-
-  shouldLoadTabContent = index => {
-    return index === this.state.selectedIndex;
   };
 
   renderLoginIcon = () => <Icon name="person-outline" />;
@@ -44,8 +41,7 @@ class Login extends Component {
           onSelect={this.onSelect}
           indicatorStyle={styles.indicatorStyle}
           tabBarStyle={styles.tabBarStyle}
-          style={styles.tabView}
-          shouldLoadComponent={this.shouldLoadTabContent}>
+          style={styles.tabView}>
           <Tab title="Login" icon={this.renderLoginIcon}>
             <View style={styles.container}>
               <View style={styles.body}>
