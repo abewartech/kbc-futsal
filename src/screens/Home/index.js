@@ -5,11 +5,13 @@ import {
   TopNavigation,
   TopNavigationAction,
   Icon,
+  Text,
 } from 'react-native-ui-kitten';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Carousel} from '../../components';
 
 class Home extends Component {
   static navigationOptions = ({navigation}) => {
@@ -60,7 +62,14 @@ class Home extends Component {
           alignment="center"
           rightControls={this.renderRightControl()}
         />
-        <Layout style={styles.container}></Layout>
+        <Layout style={styles.container}>
+          <View style={styles.view}>
+            <Carousel></Carousel>
+          </View>
+          <View style={styles.detail}>
+            <Text>Informasi Detail</Text>
+          </View>
+        </Layout>
       </SafeAreaView>
     );
   }
@@ -69,6 +78,14 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  view: {
+    flex: 1,
+  },
+  detail: {
+    alignItems: 'center',
+    flex: 1,
+    padding: 20,
   },
 });
 

@@ -5,11 +5,21 @@ import {
   TopNavigation,
   TopNavigationAction,
   Icon,
+  List,
+  Text,
+  ListItem,
 } from 'react-native-ui-kitten';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
+
+const SAMPLE_DATA = {
+  title: 'Nama Team',
+  description: '09 Oct 2019 ~ 12:00 - 13:00',
+};
+
+const data = new Array(28).fill(SAMPLE_DATA);
 
 class History extends Component {
   static navigationOptions = ({navigation}) => {
@@ -18,6 +28,14 @@ class History extends Component {
       header: null,
     };
   };
+
+  renderItem = ({item, index}) => (
+    <ListItem
+      title={`${item.title}`}
+      description={`${item.description}`}
+      accessory={this.renderItemAccessory}
+    />
+  );
 
   renderRightControl = props => {
     return (
@@ -29,6 +47,8 @@ class History extends Component {
       </View>
     );
   };
+
+  renderItemAccessory = style => <Text style={style}>Rp 80.000</Text>;
 
   renderLogoutIcon = style => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
@@ -60,7 +80,9 @@ class History extends Component {
           alignment="center"
           rightControls={this.renderRightControl()}
         />
-        <Layout style={styles.container}></Layout>
+        <Layout style={styles.container}>
+          <List style={styles.list} data={data} renderItem={this.renderItem} />
+        </Layout>
       </SafeAreaView>
     );
   }

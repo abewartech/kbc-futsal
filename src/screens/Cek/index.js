@@ -10,6 +10,7 @@ import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
+import {Calendar} from '../../components';
 
 class Cek extends Component {
   static navigationOptions = ({navigation}) => {
@@ -60,7 +61,9 @@ class Cek extends Component {
           alignment="center"
           rightControls={this.renderRightControl()}
         />
-        <Layout style={styles.container}></Layout>
+        <Layout style={styles.calendar}>
+          <Calendar />
+        </Layout>
       </SafeAreaView>
     );
   }
@@ -69,6 +72,9 @@ class Cek extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  calendar: {
+    padding: 10,
   },
 });
 
