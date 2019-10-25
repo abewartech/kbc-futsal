@@ -66,9 +66,6 @@ class Home extends Component {
           <View style={styles.view}>
             <Carousel></Carousel>
           </View>
-          <View style={styles.detail}>
-            <Text>Informasi Detail</Text>
-          </View>
         </Layout>
       </SafeAreaView>
     );
@@ -78,6 +75,7 @@ class Home extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#e8ecf1',
   },
   view: {
     flex: 1,

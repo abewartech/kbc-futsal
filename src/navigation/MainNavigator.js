@@ -18,7 +18,6 @@ export const BottomNavigationShowcase = props => {
   const renderBookingIcon = () => <Icon name="checkmark-square-outline" />;
   const renderHistoryIcon = () => <Icon name="clock-outline" />;
   const renderCekIcon = () => <Icon name="calendar-outline" />;
-  const renderLogoutIcon = () => <Icon name="log-out-outline" />;
 
   return (
     <BottomNavigation
