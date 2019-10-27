@@ -34,6 +34,8 @@ target 'kbc' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  pod 'react-native-date-picker', :path => '../node_modules/react-native-date-picker'
+
   target 'kbcTests' do
     inherit! :search_paths
     # Pods for testing

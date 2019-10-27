@@ -1,4 +1,4 @@
-const ip = '10.107.191.154:8001';
+const ip = '192.168.1.7:8001';
 
 const Endpoint = {
   prod: `http://${ip}/api/v1`,

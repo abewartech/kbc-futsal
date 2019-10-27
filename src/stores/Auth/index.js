@@ -53,7 +53,11 @@ export class Auth {
                 role,
                 token,
               );
-              navigation.navigate('Home');
+              if (user.role === 1) {
+                navigation.navigate('Home');
+              } else {
+                navigation.navigate('Admin');
+              }
             }
           });
         } else {
@@ -112,7 +116,11 @@ export class Auth {
                 role,
                 token,
               );
-              navigation.navigate('Home');
+              if (user.role === 1) {
+                navigation.navigate('Home');
+              } else {
+                navigation.navigate('Admin');
+              }
             }
           });
         } else {
