@@ -4,5 +4,6 @@ import Home from './Home';
 import History from './History';
 import Cek from './Cek';
 import Admin from './Admin';
+import Bayar from './Bayar';
 
-export {Splash, Login, Home, History, Cek, Admin};
+export {Splash, Login, Home, History, Cek, Admin, Bayar};

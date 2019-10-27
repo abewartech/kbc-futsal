@@ -34,6 +34,7 @@ class Home extends Component {
       jam: '',
       isCorrect: false,
       pesan: '',
+      userId: '',
     };
   }
 
@@ -43,6 +44,20 @@ class Home extends Component {
       header: null,
     };
   };
+
+  componentDidMount() {
+    let user = ['id'];
+    AsyncStorage.multiGet(user, (err, result) => {
+      if (err) {
+        alert(err);
+      } else {
+        const userId = result[0][1];
+        this.setState({
+          userId,
+        });
+      }
+    });
+  }
 
   renderRightControl = props => {
     return (
@@ -90,7 +105,8 @@ class Home extends Component {
   };
 
   bookHandler = () => {
-    const {jam, isCorrect} = this.state;
+    const {jam, date, userId} = this.state;
+    const {bayarStore} = this.props.rootStore;
 
     if (jam === '') {
       this.setState({
@@ -108,7 +124,7 @@ class Home extends Component {
         jam: '',
         isCorrect: false,
       });
-      alert('Booking success');
+      bayarStore.bayar(userId, date, jam, this.props.navigation);
     }
   };
 
@@ -190,9 +206,7 @@ class Home extends Component {
           <ImageBackground style={styles.backgroundImage} source={image} />
           <View style={styles.infoContainer}>
             <View style={styles.detailsContainer}>
-              <Text style={styles.titleLabel} category="h6">
-                KBC Futsal
-              </Text>
+              <Text category="h6">KBC Futsal</Text>
               <Text style={styles.rentLabel} appearance="hint" category="p2">
                 Harga Booking
               </Text>
@@ -202,7 +216,7 @@ class Home extends Component {
                   valueStyle={styles.priceValueLabel}
                   scaleStyle={styles.priceScaleLabel}
                   scale="night">
-                  Rp 80.000 / Jam
+                  Rp 50.000
                 </Text>
                 <Button style={styles.bookButton} onPress={this.onBookPress}>
                   BOOK NOW
@@ -224,7 +238,10 @@ class Home extends Component {
           <View style={styles.aboutSection}>
             <Text category="s1">Detail Informasi</Text>
             <Text style={styles.aboutLabel} appearance="hint">
-              KBC Futsal adalah lapangan futsal
+              Harga Lapangan jam 07.00 - 15.00 = Rp 80.000 / Jam
+            </Text>
+            <Text style={styles.aboutLabel} appearance="hint">
+              Harga Lapangan jam 15.00 - 23.00 = Rp 100.000 / Jam
             </Text>
           </View>
           <View style={styles.aboutSection}>
@@ -276,16 +293,13 @@ const styles = StyleSheet.create({
   },
   detailsContainer: {
     paddingHorizontal: 24,
-    paddingVertical: 22,
-    borderBottomWidth: 1,
-    borderBottomColor: '#fff',
+    marginTop: 20,
   },
   bookContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   facilitiesContainer: {
-    marginTop: -10,
     paddingHorizontal: 24,
     paddingVertical: 20,
   },
@@ -300,19 +314,17 @@ const styles = StyleSheet.create({
   },
   aboutSection: {
     marginHorizontal: 24,
-    marginVertical: 24,
+    marginTop: 20,
+  },
+  aboutLabel: {
+    marginTop: 2,
   },
   rentLabel: {
-    marginTop: 24,
+    marginTop: 20,
   },
-  bookButton: {borderRadius: 20},
+  bookButton: {marginTop: -15, borderRadius: 20},
   priceLabel: {
     marginTop: 8,
-  },
-  priceValueLabel: {
-    fontFamily: 'opensans-bold',
-    fontSize: 26,
-    lineHeight: 32,
   },
   sectionLabel: {
     marginBottom: 10,
@@ -344,15 +356,6 @@ const styles = StyleSheet.create({
   },
   modalBtn: {
     margin: 5,
-  },
-  datepicker: {
-    padding: 50,
-  },
-  timePick: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    paddingTop: 10,
   },
   input: {
     width: wp('75%'),

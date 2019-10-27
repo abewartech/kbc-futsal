@@ -96,7 +96,7 @@ class SignupForm extends Component {
             icon={this.renderUserIcon}
             value={name}
             onChangeText={name => this.setState({name, isnameEmpty: false})}
-            placeholder="Nama"
+            placeholder="Nama Team"
             style={styles.input}
             caption={isnameEmpty ? 'Isi Nama terlebih dahulu' : null}
             status={isnameEmpty ? 'danger' : null}

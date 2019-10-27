@@ -6,7 +6,7 @@ import {
   Icon,
 } from 'react-native-ui-kitten';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-import {Splash, Login, Home, History, Cek, Admin} from '../screens';
+import {Splash, Login, Home, History, Cek, Admin, Bayar} from '../screens';
 
 export const BottomNavigationShowcase = props => {
   const onTabSelect = selectedIndex => {
@@ -45,6 +45,7 @@ const MainNavigator = createSwitchNavigator({
   Splash: Splash,
   AuthStack: Login,
   Admin: Admin,
+  Bayar: Bayar,
   Home: {
     screen: BottomTabNavigator,
   },

@@ -5,6 +5,7 @@ import {List} from 'react-native-ui-kitten';
 const image2 = require('../../../assets/images/futsal2.jpg');
 const image3 = require('../../../assets/images/futsal3.jpg');
 const image4 = require('../../../assets/images/futsal4.jpg');
+const image5 = require('../../../assets/images/futsal5.jpg');
 
 const data = [
   {
@@ -15,6 +16,9 @@ const data = [
   },
   {
     image: image4,
+  },
+  {
+    image: image5,
   },
 ];
 
