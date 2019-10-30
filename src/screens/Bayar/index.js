@@ -11,16 +11,33 @@ import {
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
+import AsyncStorage from '@react-native-community/async-storage';
+import ImagePicker from 'react-native-image-picker';
 
 const bca = require('../../../assets/images/bca.png');
 
 class Bayar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      photo: null,
+      bookingData: [],
+      button: false,
+    };
+  }
+
   static navigationOptions = ({navigation}) => {
     return {
       title: 'Bayar',
       header: null,
     };
   };
+
+  componentDidMount() {
+    this.setState({
+      bookingData: this.props.rootStore.bayarStore.bookingData,
+    });
+  }
 
   renderLeftControl = props => {
     return (
@@ -33,6 +50,23 @@ class Bayar extends Component {
     );
   };
 
+  handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.uri) {
+        this.setState({photo: response});
+      }
+    });
+  };
+
+  handleUploadPhoto = () => {
+    const {photo, bookingData} = this.state;
+    this.props.rootStore.bayarStore.upload(photo, bookingData._id);
+    this.setState({button: true});
+  };
+
   rendeBackIcon = style => {
     return <Icon name="close-outline" size={23} {...style} fill="#fff" />;
   };
@@ -42,6 +76,7 @@ class Bayar extends Component {
   };
 
   render() {
+    const {photo, bookingData, button} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
@@ -57,7 +92,7 @@ class Bayar extends Component {
               No Tagihan
             </Text>
             <Text category="s1" style={styles.label}>
-              2423h423gg4g34h
+              {bookingData._id}
             </Text>
           </View>
           <View style={styles.section3}>
@@ -93,7 +128,30 @@ class Bayar extends Component {
           </View>
           <View style={{marginHorizontal: 25, marginVertical: 10}}>
             <Text>Silahkan upload bukti transfer</Text>
-            <Button style={{marginVertical: 20}}>Upload Bukti Transfer</Button>
+            <Button
+              style={{
+                marginVertical: 5,
+              }}
+              onPress={this.handleChoosePhoto}
+              disabled={button}>
+              Pilih Gambar
+            </Button>
+            {photo && (
+              <View>
+                <ImageBackground
+                  source={{uri: photo.uri}}
+                  style={styles.image}
+                />
+                <Button
+                  style={{
+                    marginVertical: 10,
+                  }}
+                  onPress={this.handleUploadPhoto}
+                  disabled={button}>
+                  Upload Bukti Transfer
+                </Button>
+              </View>
+            )}
           </View>
         </Layout>
       </SafeAreaView>
@@ -130,6 +188,11 @@ const styles = StyleSheet.create({
   bcaLogo: {
     width: 130,
     height: 70,
+  },
+  image: {
+    marginHorizontal: 100,
+    width: 150,
+    height: 160,
   },
 });
 

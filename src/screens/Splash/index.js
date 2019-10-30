@@ -35,12 +35,18 @@ class Splash extends React.Component {
         if (token === null) {
           setTimeout(() => {
             navigate('AuthStack');
-          }, 2000);
+          }, 1500);
         } else {
           credentialStore.setUserCredentials(id, username, role, token);
-          setTimeout(() => {
-            navigate('Home');
-          }, 2000);
+          if (role === 1) {
+            setTimeout(() => {
+              navigate('Home');
+            }, 2000);
+          } else {
+            setTimeout(() => {
+              navigate('Admin');
+            }, 2000);
+          }
         }
       }
     });
@@ -52,11 +58,11 @@ class Splash extends React.Component {
         <Spinner
           isVisible={true}
           size={65}
-          type="WanderingCubes"
+          type="ChasingDots"
           color={Color.light}
         />
         <Text category="h3" appearance="alternative" style={styles.LoadingText}>
-          LOADING
+          KBC FUTSAL
         </Text>
       </View>
     );
