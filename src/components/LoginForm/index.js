@@ -100,7 +100,7 @@ class LoginForm extends Component {
             onPress={() => this.loginHandler()}
             appearance="ghost"
             size={wp(100) > 600 ? 'giant' : 'large'}
-            textStyle={{color: '#fff', fontSize: wp(3.5), padding: 5}}>
+            textStyle={{color: '#fff', fontSize: wp(4), padding: 5}}>
             LOGIN
           </Button>
         ) : (

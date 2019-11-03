@@ -13,15 +13,17 @@ import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const SAMPLE_DATA = {
-  title: 'Nama Team',
-  description: '09 Oct 2019 ~ 12:00 - 13:00',
-};
-
-const data = new Array(28).fill(SAMPLE_DATA);
+import Endpoint from '../../utils/Endpoint';
+import moment from 'moment';
 
 class History extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookingList: [],
+    };
+  }
+
   static navigationOptions = ({navigation}) => {
     return {
       title: 'History',
@@ -29,11 +31,36 @@ class History extends Component {
     };
   };
 
+  componentDidMount() {
+    const {token} = this.props.rootStore.credentialStore;
+    fetch(
+      `${Endpoint.prod}/getallcompletebooking`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      },
+      {timeout: Endpoint.timeout},
+    )
+      .then(res => res.json())
+      .then(booking => {
+        if (booking.success) {
+          this.setState({bookingList: booking.message});
+        } else {
+          alert(booking.message);
+        }
+      })
+      .catch(error => {
+        alert(error.toString().split('TypeError: ')[1]);
+      });
+  }
+
   renderItem = ({item, index}) => (
     <ListItem
       title={`${item.title}`}
       description={`${item.description}`}
       accessory={this.renderItemAccessory}
+      style={{marginVertical: 5}}
     />
   );
 
@@ -81,7 +108,12 @@ class History extends Component {
           rightControls={this.renderRightControl()}
         />
         <Layout style={styles.container}>
-          <List style={styles.list} data={data} renderItem={this.renderItem} />
+          <List
+            contentContainerStyle={styles.containerList}
+            data={this.state.bookingList}
+            renderItem={this.renderItem}
+            extraData={this.state.bookingList}
+          />
         </Layout>
       </SafeAreaView>
     );
@@ -91,6 +123,11 @@ class History extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#e8ecf1',
+  },
+  containerList: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
 });
 

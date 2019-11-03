@@ -9,8 +9,8 @@ export class Bayar {
     this.rooStore = rooStore;
   }
 
-  bayar(userId, date, jam, navigation) {
-    let data = {userId, date, jam};
+  bayar(userId, namaTeam, date, jam, navigation) {
+    let data = {userId, namaTeam, date, jam};
     const {token} = this.rooStore.credentialStore;
     fetch(
       `${Endpoint.prod}/addbooking`,

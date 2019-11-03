@@ -22,7 +22,6 @@ import {
 import {Images} from '../../components';
 
 const image = require('../../../assets/images/futsal.png');
-const CalendarIcon = style => <Icon {...style} name="calendar" />;
 
 class Home extends Component {
   constructor(props) {
@@ -35,6 +34,7 @@ class Home extends Component {
       isCorrect: false,
       pesan: '',
       userId: '',
+      namaTeam: '',
     };
   }
 
@@ -46,14 +46,16 @@ class Home extends Component {
   };
 
   componentDidMount() {
-    let user = ['id'];
+    let user = ['id', 'name'];
     AsyncStorage.multiGet(user, (err, result) => {
       if (err) {
         alert(err);
       } else {
         const userId = result[0][1];
+        const name = result[1][1];
         this.setState({
           userId,
+          namaTeam: name,
         });
       }
     });
@@ -105,7 +107,7 @@ class Home extends Component {
   };
 
   bookHandler = () => {
-    const {jam, date, userId} = this.state;
+    const {jam, date, userId, namaTeam} = this.state;
     const {bayarStore} = this.props.rootStore;
 
     if (jam === '') {
@@ -124,7 +126,7 @@ class Home extends Component {
         jam: '',
         isCorrect: false,
       });
-      bayarStore.bayar(userId, date, jam, this.props.navigation);
+      bayarStore.bayar(userId, namaTeam, date, jam, this.props.navigation);
     }
   };
 
@@ -137,6 +139,7 @@ class Home extends Component {
           locale={'id'}
           minimumDate={new Date(Date.now())}
           minuteInterval={5}
+          style={{width: wp(90)}}
         />
         <View style={styles.containerModalBtn}>
           <Button
@@ -197,8 +200,8 @@ class Home extends Component {
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="Booking"
-          titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: 20, backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp('7%'), color: 'white', fontWeight: 'bold'}}
+          style={{paddingVertical: wp(1), backgroundColor: Color.primary}}
           alignment="center"
           rightControls={this.renderRightControl()}
         />
@@ -304,8 +307,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   primaryFacilityList: {
-    paddingVertical: 10,
-    marginHorizontal: 10,
+    marginHorizontal: wp(2),
+    marginVertical: wp(1),
     borderWidth: 1,
     borderColor: Color.primary,
     padding: 8,
@@ -331,10 +334,11 @@ const styles = StyleSheet.create({
   },
   viewFac: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
   },
   modalContainer: {
-    width: wp('90%'),
-    height: hp('30%'),
+    width: wp(90),
+    height: hp(50),
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
@@ -342,7 +346,7 @@ const styles = StyleSheet.create({
   },
   modalTglContainer: {
     width: wp('90%'),
-    height: hp('20%'),
+    height: hp('30%'),
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',

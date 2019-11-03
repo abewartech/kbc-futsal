@@ -1,26 +1,43 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, Image} from 'react-native';
 import {
   Layout,
   TopNavigation,
   TopNavigationAction,
   Icon,
   List,
+  ListItem,
+  Button,
+  Modal,
+  Avatar,
   Text,
 } from 'react-native-ui-kitten';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
-
-const SAMPLE_DATA = {
-  title: 'Nama Team',
-  description: '09 Oct 2019 ~ 12:00 - 13:00',
-};
-
-const data = new Array(8).fill(SAMPLE_DATA);
+import Endpoint from '../../utils/Endpoint';
+import moment from 'moment';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class Admin extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bookingList: [],
+      modalVisible: false,
+      noTagihan: '',
+      namaTeam: '',
+      date: '',
+      jam: '',
+      image: '',
+      refresh: false,
+    };
+  }
+
   static navigationOptions = ({navigation}) => {
     return {
       title: 'Admin',
@@ -28,25 +45,50 @@ class Admin extends Component {
     };
   };
 
-  renderItem = ({item, index}) => (
-    <TouchableOpacity
-      activeOpacity={0.95}
-      onPress={this.onDetails}
-      style={styles.listFut}>
-      <View style={styles.containerLis}>
-        <View style={[styles.subContainer, styles.leftSection]}></View>
-        <View style={[styles.subContainer, styles.rightSection]}>
-          <Text style={styles.titleLabel} category="h5">
-            Exercise
-          </Text>
-          <View style={styles.controlsContainer}>
-            <View style={styles.containerA}></View>
-            {this.renderLogoutIcon()}
-          </View>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+  componentDidMount() {
+    const {token} = this.props.rootStore.credentialStore;
+    fetch(
+      `${Endpoint.prod}/getallbooking`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      },
+      {timeout: Endpoint.timeout},
+    )
+      .then(res => res.json())
+      .then(booking => {
+        if (booking.success) {
+          this.setState({bookingList: booking.message});
+        } else {
+          alert(booking.message);
+        }
+      })
+      .catch(error => {
+        alert(error.toString().split('TypeError: ')[1]);
+      });
+  }
+
+  renderItem = ({item, index}) => {
+    const jam = moment(item.date).format('hh:mm');
+    const until = moment(item.date)
+      .add(item.jam, 'hours')
+      .format('hh:mm');
+    return (
+      <ListItem
+        title={`${item.namaTeam}`}
+        description={`${moment(item.date).format(
+          'DD MMM YYYY',
+        )} ~ ${jam} - ${until}`}
+        icon={this.renderItemIcon}
+        accessory={this.renderItemAccessory}
+        onPress={() => {
+          this.acc(item._id);
+        }}
+        style={{marginVertical: 5}}
+      />
+    );
+  };
 
   renderRightControl = props => {
     return (
@@ -59,7 +101,46 @@ class Admin extends Component {
     );
   };
 
-  renderItemAccessory = style => <Text style={style}>Rp 80.000</Text>;
+  acc = id => {
+    if (id) {
+      const {token} = this.props.rootStore.credentialStore;
+      fetch(
+        `${Endpoint.prod}/getbooking/${id}`,
+        {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        },
+        {timeout: Endpoint.timeout},
+      )
+        .then(res => res.json())
+        .then(booking => {
+          if (booking.success) {
+            const {_id, namaTeam, date, jam, image} = booking.message;
+            this.setState({noTagihan: _id, namaTeam, date, jam, image});
+          } else {
+            alert(booking.message);
+          }
+        })
+        .catch(error => {
+          alert(error.toString().split('TypeError: ')[1]);
+        });
+    }
+    const modalVisible = !this.state.modalVisible;
+    this.setState({modalVisible});
+  };
+
+  renderItemAccessory = style => (
+    <Avatar
+      style={{width: 30, height: 25}}
+      source={{
+        uri:
+          'https://akveo.github.io/eva-icons/outline/png/128/arrow-ios-forward-outline.png',
+      }}
+    />
+  );
+
+  renderItemIcon = style => <Icon {...style} name="people-outline" />;
 
   renderLogoutIcon = style => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
@@ -81,22 +162,122 @@ class Admin extends Component {
     });
   };
 
+  complateBooking = id => {
+    const {token} = this.props.rootStore.credentialStore;
+    fetch(
+      `${Endpoint.prod}/completebooking/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+      },
+      {timeout: Endpoint.timeout},
+    )
+      .then(res => res.json())
+      .then(booking => {
+        if (booking.success) {
+          let bookingList = this.state.bookingList.filter(value => {
+            value._id !== booking.message._id;
+          });
+          this.setState({bookingList});
+        } else {
+          alert(booking.message);
+        }
+      })
+      .catch(error => {
+        alert(error.toString().split('TypeError: ')[1]);
+      });
+    const modalVisible = !this.state.modalVisible;
+    this.setState({modalVisible});
+  };
+
+  renderAccModal = () => {
+    const {noTagihan, namaTeam, date, jam, image} = this.state;
+    return (
+      <Layout style={styles.modalContainer}>
+        <View style={styles.mainSection}>
+          <View style={styles.section}>
+            <Text category="s1" appearance="hint">
+              No Tagihan
+            </Text>
+            <Text category="s1">{noTagihan}</Text>
+          </View>
+          <View style={styles.section}>
+            <Text category="s1" appearance="hint">
+              Nama Team
+            </Text>
+            <Text category="s1">{namaTeam}</Text>
+          </View>
+          <View style={styles.section}>
+            <Text category="s1" appearance="hint">
+              Tanggal
+            </Text>
+            <Text category="s1">
+              {moment(date).format('DD MMMM YYYY ~ hh:mm')}
+            </Text>
+          </View>
+          <View style={styles.section}>
+            <Text category="s1" appearance="hint">
+              Lama Main
+            </Text>
+            <Text category="s1">{jam} Jam</Text>
+          </View>
+        </View>
+        <Image
+          style={{
+            width: '80%',
+            height: hp(25),
+            marginTop: 10,
+            resizeMode: 'center',
+          }}
+          source={
+            image
+              ? {
+                  uri: `http://192.168.1.8:8001/images/uploads/${image}`,
+                }
+              : {
+                  uri: `http://192.168.1.8:8001/images/uploads/default.jpg`,
+                }
+          }></Image>
+        <Text appearance="hint">Bukti Transfer</Text>
+        <Button
+          style={styles.modalBtn}
+          onPress={() => {
+            this.complateBooking(noTagihan);
+          }}
+          icon={this.renderCancelIcon}>
+          Accept
+        </Button>
+      </Layout>
+    );
+  };
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="Admin"
-          titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: 20, backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp(7), color: 'white', fontWeight: 'bold'}}
+          style={{paddingVertical: hp(1), backgroundColor: Color.primary}}
           alignment="center"
           rightControls={this.renderRightControl()}
         />
         <Layout style={styles.container}>
           <List
             contentContainerStyle={styles.containerList}
-            data={data}
+            data={this.state.bookingList}
             renderItem={this.renderItem}
+            extraData={this.state.bookingList}
           />
+          <Modal
+            allowBackdrop={true}
+            backdropStyle={{backgroundColor: 'black', opacity: 0.4}}
+            onBackdropPress={this.acc}
+            visible={this.state.modalVisible}>
+            {this.renderAccModal()}
+          </Modal>
         </Layout>
       </SafeAreaView>
     );
@@ -112,53 +293,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#e8ecf1',
   },
-  containerA: {
-    flexDirection: 'row',
+  modalContainer: {
+    width: wp('90%'),
+    height: hp('63%'),
+    backgroundColor: 'white',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 10,
-    paddingVertical: 4,
-    borderRadius: 100,
+    borderRadius: 8,
   },
-  containerLis: {
+  containerModalBtn: {
     flexDirection: 'row',
-    borderRadius: 12,
-    minHeight: 144,
-    overflow: 'hidden',
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
   },
-  subContainer: {
-    flex: 1,
+  modalBtn: {
+    width: wp('70%'),
+    marginVertical: hp(1),
   },
-  rightSection: {
-    padding: 16,
-    justifyContent: 'space-between',
-  },
-  leftSection: {
-    padding: 16,
-  },
-  titleLabel: {
-    color: 'black',
-  },
-  controlsContainer: {
+  mainSection: {width: wp('80%')},
+  section: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  chips: {
-    width: 80,
-  },
-  chipsText: {
-    color: 'black',
-    width: 13,
-    height: 13,
-    tintColor: 'black',
-  },
-  detailsIcon: {
-    width: 22,
-    height: 22,
-  },
-  listFut: {
-    marginVertical: 8,
+    marginTop: hp(1),
   },
 });
 

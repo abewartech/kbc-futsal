@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, ImageBackground} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  ImageBackground,
+  ScrollView,
+} from 'react-native';
 import {
   Layout,
   TopNavigation,
@@ -11,8 +17,11 @@ import {
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
-import AsyncStorage from '@react-native-community/async-storage';
 import ImagePicker from 'react-native-image-picker';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 const bca = require('../../../assets/images/bca.png');
 
@@ -81,79 +90,78 @@ class Bayar extends Component {
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="Detail Pembayaran"
-          titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: 20, backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp(7), color: 'white', fontWeight: 'bold'}}
+          style={{paddingVertical: hp(1), backgroundColor: Color.primary}}
           alignment="center"
           leftControl={this.renderLeftControl()}
         />
-        <Layout style={styles.container}>
-          <View style={styles.section}>
-            <Text category="s1" appearance="hint">
-              No Tagihan
-            </Text>
-            <Text category="s1" style={styles.label}>
-              {bookingData._id}
-            </Text>
-          </View>
-          <View style={styles.section3}>
-            <Text category="s1" appearance="hint">
-              Batas Waktu Pembayaran
-            </Text>
-            <Text category="h5">Jumat, 18 Jan 2019, 20:46 WIB</Text>
-          </View>
-          <View style={styles.section3}>
-            <Text category="s1" appearance="hint">
-              Jumlah Tagihan
-            </Text>
-            <Text category="h1">Rp 50.000</Text>
-            <Text category="s1">Bayar sesuai jumlah di atas</Text>
-          </View>
-          <View style={{marginHorizontal: 25, marginVertical: 10}}>
-            <Text>
-              Gunakan ATM / iBanking / mBangking/ setor tunai untuk transfer ke
-              rekening KBC Futsal berikut ini :
-            </Text>
-          </View>
-          <View style={styles.section2}>
-            <ImageBackground source={bca} style={styles.bcaLogo} />
-            <View>
-              <Text appearance="hint" style={{fontSize: 18}}>
-                Bank BCA, Depok
-              </Text>
-              <Text category="h5">2367 777 777 555</Text>
+        <ScrollView style={styles.view}>
+          <Layout style={styles.container}>
+            <View style={styles.section}>
               <Text category="s1" appearance="hint">
-                a/n KBC Futsal
+                No Tagihan
+              </Text>
+              <Text category="s1">{bookingData._id}</Text>
+            </View>
+            <View style={styles.section3}>
+              <Text category="s1" appearance="hint">
+                Batas Waktu Pembayaran
+              </Text>
+              <Text category="h5" style={{fontSize: wp(6)}}>
+                Jumat, 18 Jan 2019, 20:46 WIB
               </Text>
             </View>
-          </View>
-          <View style={{marginHorizontal: 25, marginVertical: 10}}>
-            <Text>Silahkan upload bukti transfer</Text>
-            <Button
-              style={{
-                marginVertical: 5,
-              }}
-              onPress={this.handleChoosePhoto}
-              disabled={button}>
-              Pilih Gambar
-            </Button>
-            {photo && (
-              <View>
-                <ImageBackground
-                  source={{uri: photo.uri}}
-                  style={styles.image}
-                />
-                <Button
-                  style={{
-                    marginVertical: 10,
-                  }}
-                  onPress={this.handleUploadPhoto}
-                  disabled={button}>
-                  Upload Bukti Transfer
-                </Button>
+            <View style={styles.section3}>
+              <Text category="s1" appearance="hint">
+                Jumlah Tagihan
+              </Text>
+              <Text category="h1">Rp 50.000</Text>
+              <Text category="s1">Bayar sesuai jumlah di atas</Text>
+            </View>
+            <View style={{marginHorizontal: 25, marginVertical: 10}}>
+              <Text>
+                Gunakan ATM / iBanking / mBangking/ setor tunai untuk transfer
+                ke rekening KBC Futsal berikut ini :
+              </Text>
+            </View>
+            <View style={styles.section2}>
+              <ImageBackground source={bca} style={styles.bcaLogo} />
+              <View style={{marginLeft: 10}}>
+                <Text appearance="hint" style={{fontSize: wp(6)}}>
+                  Bank BCA, Depok
+                </Text>
+                <Text category="h5">2367 777 777 555</Text>
+                <Text category="s1" appearance="hint">
+                  a/n KBC Futsal
+                </Text>
               </View>
-            )}
-          </View>
-        </Layout>
+            </View>
+            <View style={{marginHorizontal: 25, marginVertical: 10}}>
+              <Text>Silahkan upload bukti transfer</Text>
+              <Button
+                style={{
+                  marginVertical: 5,
+                }}
+                onPress={this.handleChoosePhoto}
+                disabled={button}>
+                Pilih Gambar
+              </Button>
+              {photo && (
+                <View style={{height: hp(25)}}>
+                  <Image source={{uri: photo.uri}} style={styles.image} />
+                  <Button
+                    style={{
+                      marginVertical: 10,
+                    }}
+                    onPress={this.handleUploadPhoto}
+                    disabled={button}>
+                    Upload Bukti Transfer
+                  </Button>
+                </View>
+              )}
+            </View>
+          </Layout>
+        </ScrollView>
       </SafeAreaView>
     );
   }
@@ -165,8 +173,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8ecf1',
   },
   section: {
-    marginHorizontal: 25,
-    marginVertical: 20,
+    marginHorizontal: wp(6),
+    marginVertical: hp(3),
     justifyContent: 'space-between',
     flexDirection: 'row',
   },
@@ -186,13 +194,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bcaLogo: {
-    width: 130,
-    height: 70,
+    width: wp(33),
+    height: hp(13),
   },
   image: {
     marginHorizontal: 100,
-    width: 150,
-    height: 160,
+    height: '50%',
+    resizeMode: 'center',
   },
 });
 

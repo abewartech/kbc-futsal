@@ -150,7 +150,7 @@ class SignupForm extends Component {
             onPress={() => this.signupHandler()}
             appearance="ghost"
             size={wp(100) > 600 ? 'giant' : 'large'}
-            textStyle={{color: '#fff', fontSize: wp(3.5), padding: 5}}>
+            textStyle={{color: '#fff', fontSize: wp(4), padding: 5}}>
             SIGN UP
           </Button>
         ) : (

@@ -31,12 +31,13 @@ export class Auth {
       .then(res => res.json())
       .then(user => {
         if (user.success) {
-          const {id, email, role, token} = user;
+          const {id, email, role, token, name} = user;
           const newUser = [
             ['email', `${email}`],
             ['role', `${role}`],
             ['token', `${token}`],
             ['id', `${id}`],
+            ['name', `${name}`],
           ];
           AsyncStorage.multiSet(newUser, err => {
             if (err) {
@@ -52,8 +53,9 @@ export class Auth {
                 email,
                 role,
                 token,
+                name,
               );
-              if (user.role === 1) {
+              if (role === 1) {
                 navigation.navigate('Home');
               } else {
                 navigation.navigate('Admin');
@@ -94,12 +96,13 @@ export class Auth {
       .then(res => res.json())
       .then(user => {
         if (user.success) {
-          const {id, email, role, token} = user;
+          const {_id, email, role, token, name} = user.message;
           const newUser = [
             ['email', `${email}`],
             ['role', `${role}`],
             ['token', `${token}`],
-            ['id', `${id}`],
+            ['id', `${_id}`],
+            ['name', `${name}`],
           ];
           AsyncStorage.multiSet(newUser, err => {
             if (err) {
@@ -111,12 +114,13 @@ export class Auth {
               this.isLoading = false;
 
               this.rooStore.credentialStore.setUserCredentials(
-                id,
+                _id,
                 email,
                 role,
                 token,
+                name,
               );
-              if (user.role === 1) {
+              if (role === 1) {
                 navigation.navigate('Home');
               } else {
                 navigation.navigate('Admin');
