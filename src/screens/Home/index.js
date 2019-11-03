@@ -200,8 +200,8 @@ class Home extends Component {
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="Booking"
-          titleStyle={{fontSize: wp('7%'), color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: wp(1), backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp(6), color: 'white', fontWeight: 'bold'}}
+          style={{backgroundColor: Color.primary}}
           alignment="center"
           rightControls={this.renderRightControl()}
         />
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    minHeight: hp('35%'),
+    minHeight: hp(35),
   },
   infoContainer: {
     marginTop: -80,
@@ -340,15 +340,15 @@ const styles = StyleSheet.create({
     width: wp(90),
     height: hp(50),
     backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     borderRadius: 8,
   },
   modalTglContainer: {
-    width: wp('90%'),
-    height: hp('30%'),
+    width: wp(90),
+    height: hp(30),
     backgroundColor: 'white',
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     borderRadius: 8,
   },
@@ -362,7 +362,7 @@ const styles = StyleSheet.create({
     margin: 5,
   },
   input: {
-    width: wp('75%'),
+    width: wp(75),
   },
 });
 

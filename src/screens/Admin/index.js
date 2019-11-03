@@ -254,13 +254,34 @@ class Admin extends Component {
     );
   };
 
+  listEmpty = () => (
+    <View
+      style={{
+        height: hp(50),
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Avatar
+        style={styles.item}
+        shape="square"
+        size="giant"
+        source={{
+          uri:
+            'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
+        }}
+      />
+      <Text>No Data</Text>
+      <Text>Nothing to Show</Text>
+    </View>
+  );
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="Admin"
-          titleStyle={{fontSize: wp(7), color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: hp(1), backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp(6), color: 'white', fontWeight: 'bold'}}
+          style={{backgroundColor: Color.primary}}
           alignment="center"
           rightControls={this.renderRightControl()}
         />
@@ -270,6 +291,7 @@ class Admin extends Component {
             data={this.state.bookingList}
             renderItem={this.renderItem}
             extraData={this.state.bookingList}
+            ListEmptyComponent={this.listEmpty}
           />
           <Modal
             allowBackdrop={true}
@@ -294,8 +316,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#e8ecf1',
   },
   modalContainer: {
-    width: wp('90%'),
-    height: hp('63%'),
+    width: wp(90),
+    height: hp(63),
     backgroundColor: 'white',
     alignItems: 'center',
     borderRadius: 8,
@@ -307,10 +329,10 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   modalBtn: {
-    width: wp('70%'),
+    width: wp(70),
     marginVertical: hp(1),
   },
-  mainSection: {width: wp('80%')},
+  mainSection: {width: wp(80)},
   section: {
     flexDirection: 'row',
     justifyContent: 'space-between',

@@ -90,8 +90,8 @@ class Bayar extends Component {
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="Detail Pembayaran"
-          titleStyle={{fontSize: wp(7), color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: hp(1), backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp(6), color: 'white', fontWeight: 'bold'}}
+          style={{backgroundColor: Color.primary}}
           alignment="center"
           leftControl={this.renderLeftControl()}
         />

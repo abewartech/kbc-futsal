@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import {Input, Icon, Button, Layout, Spinner} from 'react-native-ui-kitten';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {observer, inject} from 'mobx-react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../constants/Color';
 
 class LoginForm extends Component {
@@ -14,7 +11,6 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      token: '',
       showPass: false,
       isemailEmpty: false,
       isPassEmpty: false,
@@ -65,7 +61,7 @@ class LoginForm extends Component {
     const {email, password, isPassEmpty, isemailEmpty} = this.state;
     return (
       <Layout style={styles.container}>
-        <View style={styles.form}>
+        <View>
           <Input
             autoCapitalize="none"
             icon={this.renderUserIcon}
@@ -129,9 +125,6 @@ const styles = StyleSheet.create({
     elevation: 5,
     borderRadius: 10,
     justifyContent: 'space-between',
-  },
-  form: {
-    //
   },
   button: {
     backgroundColor: Color.secondary,

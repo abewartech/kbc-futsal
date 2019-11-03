@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   body: {
-    paddingVertical: wp('5%'),
+    paddingVertical: wp(5),
   },
   form: {
     marginTop: 10,

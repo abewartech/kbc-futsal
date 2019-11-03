@@ -2,10 +2,7 @@ import React, {Component} from 'react';
 import {Input, Icon, Button, Layout, Spinner} from 'react-native-ui-kitten';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {observer, inject} from 'mobx-react';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp} from 'react-native-responsive-screen';
 import Color from '../../constants/Color';
 
 class SignupForm extends Component {
@@ -16,7 +13,6 @@ class SignupForm extends Component {
       email: '',
       password: '',
       conPassword: '',
-      token: '',
       isemailEmpty: false,
       isnameEmpty: false,
       isPassEmpty: false,

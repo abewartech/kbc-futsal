@@ -96,37 +96,9 @@ export class Auth {
       .then(res => res.json())
       .then(user => {
         if (user.success) {
-          const {_id, email, role, token, name} = user.message;
-          const newUser = [
-            ['email', `${email}`],
-            ['role', `${role}`],
-            ['token', `${token}`],
-            ['id', `${_id}`],
-            ['name', `${name}`],
-          ];
-          AsyncStorage.multiSet(newUser, err => {
-            if (err) {
-              alert(err);
-              this.btnDisabled = false;
-              this.isLoading = false;
-            } else {
-              this.btnDisabled = false;
-              this.isLoading = false;
-
-              this.rooStore.credentialStore.setUserCredentials(
-                _id,
-                email,
-                role,
-                token,
-                name,
-              );
-              if (role === 1) {
-                navigation.navigate('Home');
-              } else {
-                navigation.navigate('Admin');
-              }
-            }
-          });
+          this.login(email, password, navigation);
+          this.btnDisabled = false;
+          this.isLoading = false;
         } else {
           this.btnDisabled = false;
           this.isLoading = false;

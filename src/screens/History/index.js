@@ -8,6 +8,7 @@ import {
   List,
   Text,
   ListItem,
+  Avatar,
 } from 'react-native-ui-kitten';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
@@ -15,6 +16,10 @@ import Color from '../../constants/Color';
 import AsyncStorage from '@react-native-community/async-storage';
 import Endpoint from '../../utils/Endpoint';
 import moment from 'moment';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 class History extends Component {
   constructor(props) {
@@ -47,7 +52,7 @@ class History extends Component {
         if (booking.success) {
           this.setState({bookingList: booking.message});
         } else {
-          alert(booking.message);
+          console.log(booking.message);
         }
       })
       .catch(error => {
@@ -55,14 +60,22 @@ class History extends Component {
       });
   }
 
-  renderItem = ({item, index}) => (
-    <ListItem
-      title={`${item.title}`}
-      description={`${item.description}`}
-      accessory={this.renderItemAccessory}
-      style={{marginVertical: 5}}
-    />
-  );
+  renderItem = ({item, index}) => {
+    const jam = moment(item.date).format('hh:mm');
+    const until = moment(item.date)
+      .add(item.jam, 'hours')
+      .format('hh:mm');
+    return (
+      <ListItem
+        title={`${item.namaTeam}`}
+        description={`${moment(item.date).format(
+          'DD MMM YYYY',
+        )} ~ ${jam} - ${until}`}
+        accessory={this.renderItemAccessory}
+        style={{marginVertical: 5}}
+      />
+    );
+  };
 
   renderRightControl = props => {
     return (
@@ -75,7 +88,7 @@ class History extends Component {
     );
   };
 
-  renderItemAccessory = style => <Text style={style}>Rp 80.000</Text>;
+  renderItemAccessory = style => <Text style={style}>Rp 50.000</Text>;
 
   renderLogoutIcon = style => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
@@ -97,13 +110,34 @@ class History extends Component {
     });
   };
 
+  listEmpty = () => (
+    <View
+      style={{
+        height: hp(50),
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <Avatar
+        style={styles.item}
+        shape="square"
+        size="giant"
+        source={{
+          uri:
+            'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
+        }}
+      />
+      <Text>No Data</Text>
+      <Text>Nothing to Show</Text>
+    </View>
+  );
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
           title="History"
-          titleStyle={{fontSize: 24, color: 'white', fontWeight: 'bold'}}
-          style={{paddingVertical: 20, backgroundColor: Color.primary}}
+          titleStyle={{fontSize: wp(6), color: 'white', fontWeight: 'bold'}}
+          style={{backgroundColor: Color.primary}}
           alignment="center"
           rightControls={this.renderRightControl()}
         />
@@ -113,6 +147,7 @@ class History extends Component {
             data={this.state.bookingList}
             renderItem={this.renderItem}
             extraData={this.state.bookingList}
+            ListEmptyComponent={this.listEmpty}
           />
         </Layout>
       </SafeAreaView>
