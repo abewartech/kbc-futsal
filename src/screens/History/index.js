@@ -61,10 +61,10 @@ class History extends Component {
   }
 
   renderItem = ({item, index}) => {
-    const jam = moment(item.date).format('hh:mm');
+    const jam = moment(item.date).format('HH:mm');
     const until = moment(item.date)
       .add(item.jam, 'hours')
-      .format('hh:mm');
+      .format('HH:mm');
     return (
       <ListItem
         title={`${item.namaTeam}`}

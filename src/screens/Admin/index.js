@@ -70,10 +70,10 @@ class Admin extends Component {
   }
 
   renderItem = ({item, index}) => {
-    const jam = moment(item.date).format('hh:mm');
+    const jam = moment(item.date).format('HH:mm');
     const until = moment(item.date)
       .add(item.jam, 'hours')
-      .format('hh:mm');
+      .format('HH:mm');
     return (
       <ListItem
         title={`${item.namaTeam}`}
@@ -178,10 +178,9 @@ class Admin extends Component {
       .then(res => res.json())
       .then(booking => {
         if (booking.success) {
-          let bookingList = this.state.bookingList.filter(value => {
-            value._id !== booking.message._id;
-          });
-          this.setState({bookingList});
+          this.setState(prevState => ({
+            bookingList: prevState.bookingList.filter(item => item._id !== id),
+          }));
         } else {
           alert(booking.message);
         }
@@ -215,7 +214,7 @@ class Admin extends Component {
               Tanggal
             </Text>
             <Text category="s1">
-              {moment(date).format('DD MMMM YYYY ~ hh:mm')}
+              {moment(date).format('DD MMMM YYYY ~ HH:mm')}
             </Text>
           </View>
           <View style={styles.section}>
@@ -290,7 +289,7 @@ class Admin extends Component {
             contentContainerStyle={styles.containerList}
             data={this.state.bookingList}
             renderItem={this.renderItem}
-            extraData={this.state.bookingList}
+            extraData={this.state}
             ListEmptyComponent={this.listEmpty}
           />
           <Modal
@@ -320,6 +319,7 @@ const styles = StyleSheet.create({
     height: hp(63),
     backgroundColor: 'white',
     alignItems: 'center',
+    justifyContent: 'space-evenly',
     borderRadius: 8,
   },
   containerModalBtn: {

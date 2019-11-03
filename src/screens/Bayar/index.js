@@ -18,10 +18,12 @@ import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';
 import ImagePicker from 'react-native-image-picker';
+import moment from 'moment';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import 'moment/locale/id';
 
 const bca = require('../../../assets/images/bca.png');
 
@@ -86,6 +88,9 @@ class Bayar extends Component {
 
   render() {
     const {photo, bookingData, button} = this.state;
+    const batas = moment(bookingData.date)
+      .add(1, 'days')
+      .format('dddd, DD MMM YYYY, HH:mm');
     return (
       <SafeAreaView style={styles.container}>
         <TopNavigation
@@ -108,7 +113,7 @@ class Bayar extends Component {
                 Batas Waktu Pembayaran
               </Text>
               <Text category="h5" style={{fontSize: wp(6)}}>
-                Jumat, 18 Jan 2019, 20:46 WIB
+                {batas} WIB
               </Text>
             </View>
             <View style={styles.section3}>
@@ -127,7 +132,7 @@ class Bayar extends Component {
             <View style={styles.section2}>
               <ImageBackground source={bca} style={styles.bcaLogo} />
               <View style={{marginLeft: 10}}>
-                <Text appearance="hint" style={{fontSize: wp(6)}}>
+                <Text appearance="hint" style={{fontSize: wp(5)}}>
                   Bank BCA, Depok
                 </Text>
                 <Text category="h5">2367 777 777 555</Text>
@@ -194,8 +199,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bcaLogo: {
-    width: wp(33),
-    height: hp(13),
+    width: wp(35),
+    height: hp(12),
   },
   image: {
     marginHorizontal: 100,

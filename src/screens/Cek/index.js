@@ -53,7 +53,7 @@ class Cek extends Component {
       .then(res => res.json())
       .then(booking => {
         if (booking.success) {
-          selectedMonth = moment(this.state.date).format('YYYY-MM-DD');
+          let selectedMonth = moment(this.state.date).format('YYYY-MM-DD');
           let data = booking.message.filter(
             data =>
               moment(data.createdAt).format('YYYY-MM-DD') === selectedMonth,
@@ -100,10 +100,10 @@ class Cek extends Component {
   };
 
   renderItem = ({item, index}) => {
-    const jam = moment(item.date).format('hh:mm');
+    const jam = moment(item.date).format('HH:mm');
     const until = moment(item.date)
       .add(item.jam, 'hours')
-      .format('hh:mm');
+      .format('HH:mm');
     return (
       <ListItem
         title={`${item.namaTeam}`}
@@ -116,7 +116,7 @@ class Cek extends Component {
   };
 
   onDateChange = date => {
-    selectedMonth = moment(date).format('YYYY-MM-DD');
+    let selectedMonth = moment(date).format('YYYY-MM-DD');
     let data = this.state.bookingList.filter(
       data => moment(data.createdAt).format('YYYY-MM-DD') === selectedMonth,
     );
