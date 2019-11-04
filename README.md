@@ -3,7 +3,7 @@
 Project Skripsi UNINDRA ~~ APLIKASI PENYEWAAN ONLINE LAPANGAN FUTSAL BERBASIS ANDROID pada KBC Futsal
 
 [![KBC FUTSAL](https://media.giphy.com/media/daV6bIpq6EYlizelni/giphy.gif)](https://youtu.be/cru0oY3dHgU)
-(https://media.giphy.com/media/ek3tyR3bi6uBxHgGPn/giphy.gif)](https://youtu.be/cru0oY3dHgU)
+[![KBC FUTSAL](https://media.giphy.com/media/ek3tyR3bi6uBxHgGPn/giphy.gif)](https://youtu.be/cru0oY3dHgU)
 
 ## Getting Started
 
