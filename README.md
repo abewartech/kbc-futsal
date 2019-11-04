@@ -2,8 +2,8 @@
 
 Project Skripsi UNINDRA ~~ APLIKASI PENYEWAAN ONLINE LAPANGAN FUTSAL BERBASIS ANDROID pada KBC Futsal
 
-{:.center}
 [![KBC FUTSAL](https://media.giphy.com/media/daV6bIpq6EYlizelni/giphy.gif)](https://youtu.be/cru0oY3dHgU)
+(https://media.giphy.com/media/ek3tyR3bi6uBxHgGPn/giphy.gif)](https://youtu.be/cru0oY3dHgU)
 
 ## Getting Started
 
@@ -37,8 +37,3 @@ Say what the step will be
 ## License
 
 This project is licensed under the MIT License
-
-
-.center {
-  text-align: center;
-}
