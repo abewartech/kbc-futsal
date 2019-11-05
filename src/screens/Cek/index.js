@@ -55,8 +55,7 @@ class Cek extends Component {
         if (booking.success) {
           let selectedMonth = moment(this.state.date).format('YYYY-MM-DD');
           let data = booking.message.filter(
-            data =>
-              moment(data.createdAt).format('YYYY-MM-DD') === selectedMonth,
+            data => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
           );
           this.setState({bookingFilter: data, bookingList: booking.message});
         } else {
@@ -118,7 +117,7 @@ class Cek extends Component {
   onDateChange = date => {
     let selectedMonth = moment(date).format('YYYY-MM-DD');
     let data = this.state.bookingList.filter(
-      data => moment(data.createdAt).format('YYYY-MM-DD') === selectedMonth,
+      data => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
     );
     this.setState({bookingFilter: data});
   };

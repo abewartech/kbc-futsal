@@ -20,6 +20,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {Images} from '../../components';
+import moment from 'moment';
 
 const image = require('../../../assets/images/futsal.png');
 
@@ -109,6 +110,8 @@ class Home extends Component {
   bookHandler = () => {
     const {jam, date, userId, namaTeam} = this.state;
     const {bayarStore} = this.props.rootStore;
+    const endDate = moment(date).add(jam, 'hours');
+    const tanggal = moment(date).format('YYYY-MM-DD');
 
     if (jam === '') {
       this.setState({
@@ -126,7 +129,15 @@ class Home extends Component {
         jam: '',
         isCorrect: false,
       });
-      bayarStore.bayar(userId, namaTeam, date, jam, this.props.navigation);
+      bayarStore.bayar(
+        userId,
+        namaTeam,
+        date,
+        jam,
+        endDate,
+        tanggal,
+        this.props.navigation,
+      );
     }
   };
 
