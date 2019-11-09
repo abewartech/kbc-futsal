@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {StyleSheet, View, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  RefreshControl,
+  ToastAndroid,
+} from 'react-native';
 import {
   Layout,
   TopNavigation,
@@ -35,6 +41,7 @@ class Admin extends Component {
       jam: '',
       image: '',
       refresh: false,
+      visibleToast: false,
     };
   }
 
@@ -69,6 +76,37 @@ class Admin extends Component {
       });
   }
 
+  refreshList = () => {
+    const {token} = this.props.rootStore.credentialStore;
+    fetch(
+      `${Endpoint.prod}/getallbooking`,
+      {
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
+      },
+      {timeout: Endpoint.timeout},
+    )
+      .then(res => res.json())
+      .then(booking => {
+        if (booking.success) {
+          this.setState({bookingList: booking.message});
+          ToastAndroid.showWithGravityAndOffset(
+            'Data telah dimuat ulang',
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM,
+            wp(1),
+            hp(15),
+          );
+        } else {
+          alert(booking.message);
+        }
+      })
+      .catch(error => {
+        alert(error.toString().split('TypeError: ')[1]);
+      });
+  };
+
   renderItem = ({item, index}) => {
     const jam = moment(item.date).format('HH:mm');
     const until = moment(item.date)
@@ -101,6 +139,17 @@ class Admin extends Component {
     );
   };
 
+  renderLeftControl = props => {
+    return (
+      <View>
+        <TopNavigationAction
+          icon={this.renderRefreshIcon}
+          onPress={this.refreshList}
+        />
+      </View>
+    );
+  };
+
   acc = id => {
     if (id) {
       const {token} = this.props.rootStore.credentialStore;
@@ -119,7 +168,13 @@ class Admin extends Component {
             const {_id, namaTeam, date, jam, image} = booking.message;
             this.setState({noTagihan: _id, namaTeam, date, jam, image});
           } else {
-            alert(booking.message);
+            ToastAndroid.showWithGravityAndOffset(
+              booking.message,
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM,
+              wp(1),
+              hp(15),
+            );
           }
         })
         .catch(error => {
@@ -144,6 +199,18 @@ class Admin extends Component {
 
   renderLogoutIcon = style => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
+  };
+
+  renderRefreshIcon = style => {
+    return (
+      <Icon
+        name="refresh-outline"
+        size={23}
+        {...style}
+        fill="#fff"
+        animation="pulse"
+      />
+    );
   };
 
   logoutHandler = () => {
@@ -182,7 +249,16 @@ class Admin extends Component {
             bookingList: prevState.bookingList.filter(item => item._id !== id),
           }));
         } else {
-          alert(booking.message);
+          ToastAndroid.showWithGravityAndOffset(
+            booking.message,
+            ToastAndroid.LONG,
+            ToastAndroid.CENTER,
+            wp(1),
+            hp(15),
+          );
+          this.setState(prevState => ({
+            bookingList: prevState.bookingList.filter(item => item._id !== id),
+          }));
         }
       })
       .catch(error => {
@@ -283,6 +359,7 @@ class Admin extends Component {
           style={{backgroundColor: Color.primary}}
           alignment="center"
           rightControls={this.renderRightControl()}
+          leftControl={this.renderLeftControl()}
         />
         <Layout style={styles.container}>
           <List
@@ -291,6 +368,12 @@ class Admin extends Component {
             renderItem={this.renderItem}
             extraData={this.state}
             ListEmptyComponent={this.listEmpty}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refresh}
+                onRefresh={this.refreshList}
+              />
+            }
           />
           <Modal
             allowBackdrop={true}

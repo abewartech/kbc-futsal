@@ -13,6 +13,7 @@ import {
   Icon,
   Text,
   Button,
+  Modal,
 } from 'react-native-ui-kitten';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
@@ -31,6 +32,7 @@ class Bayar extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
       photo: null,
       bookingData: [],
       button: false,
@@ -78,12 +80,55 @@ class Bayar extends Component {
     this.setState({button: true});
   };
 
+  renderBackModal = () => {
+    return (
+      <Layout level="3" style={styles.modalContainer}>
+        <View>
+          <Text>Anda yakin tidak ingin upload bukti transfer ?</Text>
+        </View>
+        <View style={styles.containerModalBtn}>
+          <Button
+            style={styles.modalBtn}
+            onPress={this.onBackPress}
+            status="warning"
+            icon={this.renderCancelIcon}>
+            Batal
+          </Button>
+          <Button
+            style={styles.modalBtn}
+            onPress={this.onLanjutPress}
+            status="info"
+            icon={this.renderOkIcon}>
+            Lanjut
+          </Button>
+        </View>
+      </Layout>
+    );
+  };
+
+  onBackPress = () => {
+    const modalVisible = !this.state.modalVisible;
+    this.setState({modalVisible});
+  };
+
+  onLanjutPress = () => {
+    this.setState({modalVisible: !this.state.modalVisible});
+    setTimeout(() => {
+      this.props.navigation.navigate('Home');
+    }, 100);
+  };
+
   rendeBackIcon = style => {
     return <Icon name="close-outline" size={23} {...style} fill="#fff" />;
   };
 
   backHandler = () => {
-    this.props.navigation.navigate('Home');
+    if (!this.state.button) {
+      const modalVisible = !this.state.modalVisible;
+      this.setState({modalVisible});
+    } else {
+      this.props.navigation.navigate('Home');
+    }
   };
 
   render() {
@@ -167,6 +212,13 @@ class Bayar extends Component {
             </View>
           </Layout>
         </ScrollView>
+        <Modal
+          allowBackdrop={true}
+          backdropStyle={{backgroundColor: 'black', opacity: 0.5}}
+          onBackdropPress={this.onBackPress}
+          visible={this.state.modalVisible}>
+          {this.renderBackModal()}
+        </Modal>
       </SafeAreaView>
     );
   }
@@ -206,6 +258,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 100,
     height: '50%',
     resizeMode: 'center',
+  },
+  modalContainer: {
+    width: wp(90),
+    height: hp(30),
+    backgroundColor: 'white',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  containerModalBtn: {
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+  },
+  modalBtn: {
+    margin: 5,
   },
 });
 

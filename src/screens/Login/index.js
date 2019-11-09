@@ -40,8 +40,7 @@ class Login extends Component {
           selectedIndex={this.state.selectedIndex}
           onSelect={this.onSelect}
           indicatorStyle={styles.indicatorStyle}
-          tabBarStyle={styles.tabBarStyle}
-          style={styles.tabView}>
+          tabBarStyle={styles.tabBarStyle}>
           <Tab title="Login" icon={this.renderLoginIcon}>
             <View style={styles.container}>
               <View style={styles.body}>
@@ -85,9 +84,6 @@ const styles = StyleSheet.create({
   form: {
     marginTop: 10,
     width: wp(80),
-  },
-  tabView: {
-    backgroundColor: Color.primary,
   },
   indicatorStyle: {
     backgroundColor: '#40AAB9',

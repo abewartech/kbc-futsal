@@ -1,7 +1,7 @@
-const ip = '192.168.1.8:8001';
+const ip = 'kbc-futsal.herokuapp.com';
 
 const Endpoint = {
-  prod: `http://${ip}/api/v1`,
+  prod: `https://${ip}/api/v1`,
   timeout: 3000,
 };
 
