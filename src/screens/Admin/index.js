@@ -310,10 +310,10 @@ class Admin extends Component {
           source={
             image
               ? {
-                  uri: `http://192.168.1.8:8001/images/uploads/${image}`,
+                  uri: `https://kbc-futsal.herokuapp.com/images/uploads/${image}`,
                 }
               : {
-                  uri: `http://192.168.1.8:8001/images/uploads/default.jpg`,
+                  uri: `https://kbc-futsal.herokuapp.com/images/uploads/default.jpg`,
                 }
           }></Image>
         <Text appearance="hint">Bukti Transfer</Text>
