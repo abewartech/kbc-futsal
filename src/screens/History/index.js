@@ -26,6 +26,7 @@ class History extends Component {
     super(props);
     this.state = {
       bookingList: [],
+      userId: '',
     };
   }
 
@@ -37,6 +38,21 @@ class History extends Component {
   };
 
   componentDidMount() {
+    let user = ['id'];
+    AsyncStorage.multiGet(user, (err, result) => {
+      if (err) {
+        alert(err);
+      } else {
+        const userId = result[0][1];
+        this.setState({
+          userId,
+        });
+      }
+    });
+    this.fetchData();
+  }
+
+  fetchData = () => {
     const {token} = this.props.rootStore.credentialStore;
     fetch(
       `${Endpoint.prod}/getallcompletebooking`,
@@ -50,7 +66,10 @@ class History extends Component {
       .then(res => res.json())
       .then(booking => {
         if (booking.success) {
-          this.setState({bookingList: booking.message});
+          let data = booking.message.filter(
+            data => data.userId === this.state.userId,
+          );
+          this.setState({bookingList: data});
         } else {
           console.log(booking.message);
         }
@@ -58,7 +77,7 @@ class History extends Component {
       .catch(error => {
         alert(error.toString().split('TypeError: ')[1]);
       });
-  }
+  };
 
   renderItem = ({item, index}) => {
     const jam = moment(item.date).format('HH:mm');
