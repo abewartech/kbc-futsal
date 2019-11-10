@@ -7,11 +7,12 @@ import MainNavigator from './src/navigation/MainNavigator';
 import {Provider} from 'mobx-react';
 import {RootStore} from './src/stores/';
 import Color from './src/constants/Color';
+import {enableScreens} from 'react-native-screens';
 
 console.disableYellowBox = true;
 
 const rootStore = new RootStore();
-
+enableScreens();
 const App = () => (
   <Provider rootStore={rootStore}>
     <ApplicationProvider mapping={mapping} theme={lightTheme}>
