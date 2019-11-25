@@ -68,7 +68,11 @@ class Bayar extends Component {
       noData: true,
     };
     ImagePicker.launchImageLibrary(options, response => {
-      if (response.uri) {
+      let path = response.uri;
+      if (Platform.OS === 'ios') {
+        path = '~' + path.substring(path.indexOf('/Documents'));
+      }
+      if (path) {
         this.setState({photo: response});
       }
     });

@@ -119,7 +119,7 @@ class Cek extends Component {
     let data = this.state.bookingList.filter(
       data => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
     );
-    this.setState({bookingFilter: data});
+    this.setState({bookingFilter: data, date});
   };
 
   listEmpty = () => (
