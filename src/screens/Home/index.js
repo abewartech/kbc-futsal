@@ -123,6 +123,11 @@ class Home extends Component {
         isCorrect: true,
         pesan: 'Maksimal 10 jam sewa',
       });
+    } else if (jam === '0') {
+      this.setState({
+        isCorrect: true,
+        pesan: 'Jam sewa tidak boleh nol',
+      });
     } else {
       this.setState({
         modalTgl: !this.state.modalTgl,

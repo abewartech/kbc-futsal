@@ -10,13 +10,13 @@ import Color from './src/constants/Color';
 import {enableScreens} from 'react-native-screens';
 
 console.disableYellowBox = true;
-
 const rootStore = new RootStore();
 enableScreens();
+const barStyle = Platform.OS === 'ios' ? 'dark-content' : 'light-content';
 const App = () => (
   <Provider rootStore={rootStore}>
     <ApplicationProvider mapping={mapping} theme={lightTheme}>
-      <StatusBar backgroundColor={Color.primary} barStyle="light-content" />
+      <StatusBar backgroundColor={Color.primary} barStyle={barStyle} />
       <IconRegistry icons={EvaIconsPack} />
       <MainNavigator />
     </ApplicationProvider>
