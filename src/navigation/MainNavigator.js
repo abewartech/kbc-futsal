@@ -4,7 +4,7 @@ import {
   BottomNavigation,
   BottomNavigationTab,
   Icon,
-} from 'react-native-ui-kitten';
+} from '@ui-kitten/components';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 import {Splash, Login, Home, History, Cek, Admin, Bayar} from '../screens';
 

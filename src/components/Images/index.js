@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, ImageBackground} from 'react-native';
-import {List} from 'react-native-ui-kitten';
+import {List} from '@ui-kitten/components';
 
 const image2 = require('../../../assets/images/futsal2.jpg');
 const image3 = require('../../../assets/images/futsal3.jpg');

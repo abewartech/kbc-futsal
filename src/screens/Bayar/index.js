@@ -14,7 +14,7 @@ import {
   Text,
   Button,
   Modal,
-} from 'react-native-ui-kitten';
+} from '@ui-kitten/components';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
 import Color from '../../constants/Color';

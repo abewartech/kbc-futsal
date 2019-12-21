@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Input, Icon, Button, Layout, Spinner} from 'react-native-ui-kitten';
+import {Input, Icon, Button, Layout, Spinner} from '@ui-kitten/components';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {observer, inject} from 'mobx-react';
 import {widthPercentageToDP as wp} from 'react-native-responsive-screen';

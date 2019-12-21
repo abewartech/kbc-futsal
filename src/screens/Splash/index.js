@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
-import {Text} from 'react-native-ui-kitten';
+import {Text} from '@ui-kitten/components';
 import {observer, inject} from 'mobx-react';
 import Spinner from 'react-native-spinkit';
 import AsyncStorage from '@react-native-community/async-storage';

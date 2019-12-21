@@ -10,37 +10,37 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@eva-design/eva": "1.2.0",
-    "@react-native-community/async-storage": "^1.6.2",
-    "@ui-kitten/eva-icons": "^4.2.0",
-    "mobx": "^5.15.0",
+    "@eva-design/eva": "1.3.1",
+    "@react-native-community/async-storage": "^1.7.1",
+    "@ui-kitten/eva-icons": "^4.3.2",
+    "mobx": "^5.15.1",
     "mobx-react": "^6.1.4",
     "moment": "^2.24.0",
-    "react": "16.11.0",
-    "react-native": "0.61.4",
+    "react": "16.12.0",
+    "react-native": "0.61.5",
     "react-native-date-picker": "^2.7.0",
     "react-native-fetch-polyfill": "^1.1.3",
-    "react-native-gesture-handler": "^1.5.0",
+    "react-native-gesture-handler": "^1.5.2",
     "react-native-image-picker": "^1.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
     "react-native-reanimated": "^1.4.0",
     "react-native-responsive-screen": "^1.3.0",
-    "react-native-screens": "^2.0.0-alpha.8",
+    "react-native-screens": "^2.0.0-alpha.22",
     "react-native-spinkit": "^1.5.0",
-    "react-native-svg": "^9.13.3",
-    "react-native-ui-kitten": "4.2.0",
+    "react-native-svg": "^9.13.6",
+    "@ui-kitten/components": "4.3.2",
     "react-navigation": "^4.0.10",
-    "react-navigation-tabs": "^2.5.6"
+    "react-navigation-tabs": "^2.6.2"
   },
   "devDependencies": {
-    "@babel/core": "7.7.2",
-    "@babel/runtime": "7.7.2",
+    "@babel/core": "7.7.7",
+    "@babel/runtime": "7.7.7",
     "@react-native-community/eslint-config": "0.0.5",
     "babel-jest": "24.9.0",
-    "eslint": "6.6.0",
+    "eslint": "6.8.0",
     "jest": "24.9.0",
     "metro-react-native-babel-preset": "0.57.0",
-    "react-test-renderer": "16.11.0"
+    "react-test-renderer": "16.12.0"
   },
   "jest": {
     "preset": "react-native"

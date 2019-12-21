@@ -2,7 +2,7 @@ import * as React from 'react';
 import {StatusBar} from 'react-native';
 import {mapping, light as lightTheme} from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
-import {ApplicationProvider, IconRegistry} from 'react-native-ui-kitten';
+import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';
 import MainNavigator from './src/navigation/MainNavigator';
 import {Provider} from 'mobx-react';
 import {RootStore} from './src/stores/';

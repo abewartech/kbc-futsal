@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {TabView, Tab, Icon} from 'react-native-ui-kitten';
+import {TabView, Tab, Icon} from '@ui-kitten/components';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import LoginForm from '../../components/LoginForm';
 import SignupForm from '../../components/SignupForm';
