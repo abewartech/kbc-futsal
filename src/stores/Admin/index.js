@@ -1,6 +1,4 @@
-import {observable, action, decorate} from 'mobx';
-import fetch from 'react-native-fetch-polyfill';
-import Endpoint from '../../utils/Endpoint';
+import {decorate} from 'mobx';
 
 export class Admin {
   constructor(rooStore) {
