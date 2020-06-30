@@ -23,12 +23,13 @@ class Login extends Component {
     selectedIndex: 0,
   };
 
-  onSelect = selectedIndex => {
+  onSelect = (selectedIndex) => {
     this.setState({selectedIndex});
   };
 
-  renderLoginIcon = () => <Icon name="person-outline" />;
-  renderSignupIcon = () => <Icon name="person-add-outline" />;
+  renderLoginIcon = (style) => <Icon {...style} name="person-outline" />;
+
+  renderSignupIcon = (style) => <Icon {...style} name="person-add-outline" />;
 
   render() {
     return (

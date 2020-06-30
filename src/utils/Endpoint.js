@@ -1,7 +1,5 @@
-const ip = 'kbc-futsal.herokuapp.com';
-
 const Endpoint = {
-  prod: `https://${ip}/api/v1`,
+  prod: `https://v2.memo.web.id`,
   timeout: 3000,
 };
 

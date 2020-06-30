@@ -63,27 +63,25 @@ class History extends Component {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(booking => {
+      .then((res) => res.json())
+      .then((booking) => {
         if (booking.success) {
           let data = booking.message.filter(
-            data => data.userId === this.state.userId,
+            (data) => data.userId === this.state.userId,
           );
           this.setState({bookingList: data});
         } else {
-          console.log(booking.message);
+          alert(booking.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
   };
 
   renderItem = ({item, index}) => {
     const jam = moment(item.date).format('HH:mm');
-    const until = moment(item.date)
-      .add(item.jam, 'hours')
-      .format('HH:mm');
+    const until = moment(item.date).add(item.jam, 'hours').format('HH:mm');
     return (
       <ListItem
         title={`${item.namaTeam}`}
@@ -96,7 +94,7 @@ class History extends Component {
     );
   };
 
-  renderRightControl = props => {
+  renderRightControl = (props) => {
     return (
       <View>
         <TopNavigationAction
@@ -107,16 +105,16 @@ class History extends Component {
     );
   };
 
-  renderItemAccessory = style => <Text style={style}>Rp 50.000</Text>;
+  renderItemAccessory = (style) => <Text style={style}>Rp 50.000</Text>;
 
-  renderLogoutIcon = style => {
+  renderLogoutIcon = (style) => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
   };
 
   logoutHandler = () => {
     let userKeys = ['username', 'role', 'token'];
     const {credentialStore} = this.props.rootStore;
-    AsyncStorage.multiRemove(userKeys, err => {
+    AsyncStorage.multiRemove(userKeys, (err) => {
       if (err) {
         alert(err);
       } else {

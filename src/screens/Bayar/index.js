@@ -52,7 +52,7 @@ class Bayar extends Component {
     });
   }
 
-  renderLeftControl = props => {
+  renderLeftControl = (props) => {
     return (
       <View>
         <TopNavigationAction
@@ -67,7 +67,7 @@ class Bayar extends Component {
     const options = {
       noData: true,
     };
-    ImagePicker.launchImageLibrary(options, response => {
+    ImagePicker.launchImageLibrary(options, (response) => {
       let path = response.uri;
       if (Platform.OS === 'ios') {
         path = '~' + path.substring(path.indexOf('/Documents'));
@@ -80,7 +80,7 @@ class Bayar extends Component {
 
   handleUploadPhoto = () => {
     const {photo, bookingData} = this.state;
-    this.props.rootStore.bayarStore.upload(photo, bookingData._id);
+    this.props.rootStore.bayarStore.upload(photo, bookingData.id);
     this.setState({button: true});
   };
 
@@ -122,7 +122,7 @@ class Bayar extends Component {
     }, 100);
   };
 
-  rendeBackIcon = style => {
+  rendeBackIcon = (style) => {
     return <Icon name="close-outline" size={23} {...style} fill="#fff" />;
   };
 
@@ -155,7 +155,7 @@ class Bayar extends Component {
               <Text category="s1" appearance="hint">
                 No Tagihan
               </Text>
-              <Text category="s1">{bookingData._id}</Text>
+              <Text category="s1">{bookingData.id}</Text>
             </View>
             <View style={styles.section3}>
               <Text category="s1" appearance="hint">

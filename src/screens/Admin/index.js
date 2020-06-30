@@ -63,15 +63,15 @@ class Admin extends Component {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(booking => {
+      .then((res) => res.json())
+      .then((booking) => {
         if (booking.success) {
           this.setState({bookingList: booking.message});
         } else {
           alert(booking.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
   }
@@ -87,8 +87,8 @@ class Admin extends Component {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(booking => {
+      .then((res) => res.json())
+      .then((booking) => {
         if (booking.success) {
           this.setState({bookingList: booking.message});
           ToastAndroid.showWithGravityAndOffset(
@@ -102,16 +102,14 @@ class Admin extends Component {
           alert(booking.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
   };
 
   renderItem = ({item, index}) => {
     const jam = moment(item.date).format('HH:mm');
-    const until = moment(item.date)
-      .add(item.jam, 'hours')
-      .format('HH:mm');
+    const until = moment(item.date).add(item.jam, 'hours').format('HH:mm');
     return (
       <ListItem
         title={`${item.namaTeam}`}
@@ -121,14 +119,14 @@ class Admin extends Component {
         icon={this.renderItemIcon}
         accessory={this.renderItemAccessory}
         onPress={() => {
-          this.acc(item._id);
+          this.acc(item.id);
         }}
         style={{marginVertical: 5}}
       />
     );
   };
 
-  renderRightControl = props => {
+  renderRightControl = (props) => {
     return (
       <View>
         <TopNavigationAction
@@ -139,7 +137,7 @@ class Admin extends Component {
     );
   };
 
-  renderLeftControl = props => {
+  renderLeftControl = (props) => {
     return (
       <View>
         <TopNavigationAction
@@ -150,7 +148,7 @@ class Admin extends Component {
     );
   };
 
-  acc = id => {
+  acc = (id) => {
     if (id) {
       const {token} = this.props.rootStore.credentialStore;
       fetch(
@@ -162,11 +160,11 @@ class Admin extends Component {
         },
         {timeout: Endpoint.timeout},
       )
-        .then(res => res.json())
-        .then(booking => {
+        .then((res) => res.json())
+        .then((booking) => {
           if (booking.success) {
-            const {_id, namaTeam, date, jam, image} = booking.message;
-            this.setState({noTagihan: _id, namaTeam, date, jam, image});
+            const {id, namaTeam, date, jam, image} = booking.message;
+            this.setState({noTagihan: id, namaTeam, date, jam, image});
           } else {
             ToastAndroid.showWithGravityAndOffset(
               booking.message,
@@ -177,7 +175,7 @@ class Admin extends Component {
             );
           }
         })
-        .catch(error => {
+        .catch((error) => {
           alert(error.toString().split('TypeError: ')[1]);
         });
     }
@@ -185,7 +183,7 @@ class Admin extends Component {
     this.setState({modalVisible});
   };
 
-  renderItemAccessory = style => (
+  renderItemAccessory = (style) => (
     <Avatar
       style={{width: 30, height: 25}}
       source={{
@@ -195,13 +193,13 @@ class Admin extends Component {
     />
   );
 
-  renderItemIcon = style => <Icon {...style} name="people-outline" />;
+  renderItemIcon = (style) => <Icon {...style} name="people-outline" />;
 
-  renderLogoutIcon = style => {
+  renderLogoutIcon = (style) => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
   };
 
-  renderRefreshIcon = style => {
+  renderRefreshIcon = (style) => {
     return (
       <Icon
         name="refresh-outline"
@@ -216,7 +214,7 @@ class Admin extends Component {
   logoutHandler = () => {
     let userKeys = ['username', 'role', 'token'];
     const {credentialStore} = this.props.rootStore;
-    AsyncStorage.multiRemove(userKeys, err => {
+    AsyncStorage.multiRemove(userKeys, (err) => {
       if (err) {
         alert(err);
       } else {
@@ -229,12 +227,12 @@ class Admin extends Component {
     });
   };
 
-  complateBooking = id => {
+  complateBooking = (id) => {
     const {token} = this.props.rootStore.credentialStore;
     fetch(
       `${Endpoint.prod}/completebooking/${id}`,
       {
-        method: 'DELETE',
+        method: 'POST',
         headers: {
           Accept: 'application/json',
           Authorization: 'Bearer ' + token,
@@ -242,11 +240,11 @@ class Admin extends Component {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(booking => {
+      .then((res) => res.json())
+      .then((booking) => {
         if (booking.success) {
-          this.setState(prevState => ({
-            bookingList: prevState.bookingList.filter(item => item._id !== id),
+          this.setState((prevState) => ({
+            bookingList: prevState.bookingList.filter((item) => item.id !== id),
           }));
         } else {
           ToastAndroid.showWithGravityAndOffset(
@@ -256,12 +254,12 @@ class Admin extends Component {
             wp(1),
             hp(15),
           );
-          this.setState(prevState => ({
-            bookingList: prevState.bookingList.filter(item => item._id !== id),
+          this.setState((prevState) => ({
+            bookingList: prevState.bookingList.filter((item) => item.id !== id),
           }));
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
     const modalVisible = !this.state.modalVisible;
@@ -310,10 +308,10 @@ class Admin extends Component {
           source={
             image
               ? {
-                  uri: `https://kbc-futsal.herokuapp.com/images/uploads/${image}`,
+                  uri: `https://v2.memo.web.id/images/${image}`,
                 }
               : {
-                  uri: `https://kbc-futsal.herokuapp.com/images/uploads/default.jpg`,
+                  uri: `https://v2.memo.web.id/images/default.jpg`,
                 }
           }></Image>
         <Text appearance="hint">Bukti Transfer</Text>

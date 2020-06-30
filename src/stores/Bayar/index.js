@@ -25,8 +25,8 @@ export class Bayar {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(booking => {
+      .then((res) => res.json())
+      .then((booking) => {
         if (booking.success) {
           this.bookingData = booking.message;
           navigation.navigate('Bayar');
@@ -34,13 +34,14 @@ export class Bayar {
           alert(booking.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
   }
 
   upload(image, bookingId) {
     const images = new FormData();
+    const {token} = this.rooStore.credentialStore;
     images.append('image', image);
     images.append('image', {
       uri: image.uri,
@@ -53,19 +54,22 @@ export class Bayar {
       `${Endpoint.prod}/upload`,
       {
         method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+        },
         body: images,
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(image => {
+      .then((res) => res.json())
+      .then((image) => {
         if (image.success) {
           this.imageData = image.message;
         } else {
           alert(image.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
   }

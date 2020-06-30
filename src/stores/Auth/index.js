@@ -28,8 +28,8 @@ export class Auth {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(user => {
+      .then((res) => res.json())
+      .then((user) => {
         if (user.success) {
           const {id, email, role, token, name} = user;
           const newUser = [
@@ -39,7 +39,7 @@ export class Auth {
             ['id', `${id}`],
             ['name', `${name}`],
           ];
-          AsyncStorage.multiSet(newUser, err => {
+          AsyncStorage.multiSet(newUser, (err) => {
             if (err) {
               alert(err);
               this.btnDisabled = false;
@@ -55,7 +55,7 @@ export class Auth {
                 token,
                 name,
               );
-              if (role === 1) {
+              if (role == 1) {
                 navigation.navigate('Home');
               } else {
                 navigation.navigate('Admin');
@@ -68,7 +68,7 @@ export class Auth {
           alert(user.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.btnDisabled = false;
         this.isLoading = false;
         alert(error.toString().split('TypeError: ')[1]);
@@ -93,8 +93,8 @@ export class Auth {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(user => {
+      .then((res) => res.json())
+      .then((user) => {
         if (user.success) {
           this.login(email, password, navigation);
           this.btnDisabled = false;
@@ -105,7 +105,7 @@ export class Auth {
           alert(user.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.btnDisabled = false;
         this.isLoading = false;
         alert(error.toString().split('TypeError: ')[1]);
