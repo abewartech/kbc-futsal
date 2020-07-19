@@ -12,6 +12,7 @@
   "dependencies": {
     "@eva-design/eva": "1.4.0",
     "@react-native-community/async-storage": "^1.9.0",
+    "@ui-kitten/components": "4.4.1",
     "@ui-kitten/eva-icons": "^4.4.1",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
@@ -23,12 +24,12 @@
     "react-native-gesture-handler": "^1.6.1",
     "react-native-image-picker": "^2.3.1",
     "react-native-keyboard-aware-scroll-view": "^0.9.1",
+    "react-native-print": "^0.6.0",
     "react-native-reanimated": "^1.8.0",
     "react-native-responsive-screen": "^1.4.1",
     "react-native-screens": "^2.7.0",
     "react-native-spinkit": "^1.5.0",
     "react-native-svg": "^12.1.0",
-    "@ui-kitten/components": "4.4.1",
     "react-navigation": "^4.3.9",
     "react-navigation-tabs": "^2.8.13"
   },

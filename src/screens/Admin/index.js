@@ -17,6 +17,7 @@ import {
   Modal,
   Avatar,
   Text,
+  Datepicker,
 } from '@ui-kitten/components';
 import {inject, observer} from 'mobx-react';
 import {SafeAreaView} from 'react-navigation';
@@ -28,6 +29,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import RNPrint from 'react-native-print';
 
 class Admin extends Component {
   constructor(props) {
@@ -42,6 +44,12 @@ class Admin extends Component {
       image: '',
       refresh: false,
       visibleToast: false,
+      modalMenuVisible: false,
+      date: null,
+      dateTo: null,
+      isCorrect: false,
+      pesan: '',
+      pesanDateTo: '',
     };
   }
 
@@ -140,10 +148,7 @@ class Admin extends Component {
   renderLeftControl = (props) => {
     return (
       <View>
-        <TopNavigationAction
-          icon={this.renderRefreshIcon}
-          onPress={this.refreshList}
-        />
+        <TopNavigationAction icon={this.renderMenuIcon} onPress={this.menu} />
       </View>
     );
   };
@@ -183,6 +188,19 @@ class Admin extends Component {
     this.setState({modalVisible});
   };
 
+  menu = () => {
+    const modalMenuVisible = !this.state.modalMenuVisible;
+    this.setState({modalMenuVisible});
+  };
+
+  setDate = (date) => {
+    this.setState({date});
+  };
+
+  setDateTo = (dateTo) => {
+    this.setState({dateTo});
+  };
+
   renderItemAccessory = (style) => (
     <Avatar
       style={{width: 30, height: 25}}
@@ -195,14 +213,16 @@ class Admin extends Component {
 
   renderItemIcon = (style) => <Icon {...style} name="people-outline" />;
 
+  renderCalendarIcon = (style) => <Icon {...style} name="calendar" />;
+
   renderLogoutIcon = (style) => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
   };
 
-  renderRefreshIcon = (style) => {
+  renderMenuIcon = (style) => {
     return (
       <Icon
-        name="refresh-outline"
+        name="menu-outline"
         size={23}
         {...style}
         fill="#fff"
@@ -327,6 +347,157 @@ class Admin extends Component {
     );
   };
 
+  reportPenyewaan = () => {
+    const {date, dateTo} = this.state;
+    const tanggal = moment(date).format('YYYY-MM-DD');
+    const tanggalAkhir = moment(dateTo).format('YYYY-MM-DD');
+    const {adminStore} = this.props.rootStore;
+    if ((date === null) & (dateTo === null)) {
+      this.setState({
+        isCorrect: true,
+        pesan: 'Silahkan pilih tanggal awal',
+        pesanDateTo: 'Silahkan pilih tanggal akhir',
+      });
+    } else if (dateTo === null) {
+      this.setState({
+        isCorrect: true,
+        pesanDateTo: 'Silahkan pilih tanggal akhir',
+      });
+    } else if (date === null) {
+      this.setState({
+        isCorrect: true,
+        pesanDateTo: 'Silahkan pilih tanggal awal',
+      });
+    } else {
+      this.setState({
+        date: null,
+        dateTo: null,
+        isCorrect: false,
+      });
+      adminStore.report(tanggal, tanggalAkhir);
+      setTimeout(() => {
+        this.printHTML();
+      }, 1000);
+    }
+  };
+
+  reportPenyewaanMasuk = () => {
+    const {date, dateTo} = this.state;
+    const tanggal = moment(date).format('YYYY-MM-DD');
+    const tanggalAkhir = moment(dateTo).format('YYYY-MM-DD');
+    const {adminStore} = this.props.rootStore;
+    if ((date === null) & (dateTo === null)) {
+      this.setState({
+        isCorrect: true,
+        pesan: 'Silahkan pilih tanggal awal',
+        pesanDateTo: 'Silahkan pilih tanggal akhir',
+      });
+    } else if (dateTo === null) {
+      this.setState({
+        isCorrect: true,
+        pesanDateTo: 'Silahkan pilih tanggal akhir',
+      });
+    } else if (date === null) {
+      this.setState({
+        isCorrect: true,
+        pesanDateTo: 'Silahkan pilih tanggal awal',
+      });
+    } else {
+      this.setState({
+        date: null,
+        dateTo: null,
+        isCorrect: false,
+      });
+      adminStore.reportpemasukan(tanggal, tanggalAkhir);
+      setTimeout(() => {
+        this.printPemasukan();
+      }, 1000);
+    }
+  };
+
+  async printHTML() {
+    const {reportData, dateTo, date} = this.props.rootStore.adminStore;
+    await RNPrint.print({
+      html: `<html> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> <style>body{font-family: calibri;}table, tr, td{border: 1px solid #30BCC9; border-collapse: collapse;}.page_break{page-break-before: always;}.badge{display: inline-block; padding: 0.25em 0.4em; font-size: 72%; font-weight: 300; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25rem; transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;}.badge-pill{padding-right: 0.6em; padding-left: 0.6em; border-radius: 10rem;}.badge-info{color: #fff; background-color: #30BCC9;}.white{border-color: #fff !important;}</style> </head> <body> <div style="width: 100%; text-align: center;"> <h1 style="background-color: #30BCC9; color: #fff; padding: 20px;">KBC FUTSAL</h1> <h5 style="color: #30BCC9;">Jl. Kerja Bakti No.22, Pondok Cina, Kota Depok, Jawa Barat 16424</h5> <hr style="border-top: 2px solid #30BCC9;"> </div><h2 style="font-weight: bold;">Laporan Penyewaan <sup class="badge badge-pill badge-info" style="font-weight: 300 !important;"> ${moment(
+        date,
+      ).format('DD MMMM YYYY')}- ${moment(dateTo).format(
+        'DD MMMM YYYY',
+      )}</sup></h2> <table cellpadding="5" style="width: 100%"> <thead> <tr style="text-align: center; background-color: #30BCC9; color: #fff;"> <td class="white">ID</td><td class="white">Nama Team</td><td class="white">Tanggal</td><td class="white">Lama Main</td></tr></thead> <tbody> ${reportData}</tbody> </table> <div style="text-align: right; margin-top: 25px; margin-right: 40px;">Depok, ${moment().format(
+        'DD MMMM YYYY',
+      )}</div></body> </html>`,
+    });
+  }
+
+  async printPemasukan() {
+    const {reportDataPemasukan, dateTo, date} = this.props.rootStore.adminStore;
+    await RNPrint.print({
+      html: `<html> <head> <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> <style>body{font-family: calibri;}table, tr, td{border: 1px solid #30BCC9; border-collapse: collapse;}.page_break{page-break-before: always;}.badge{display: inline-block; padding: 0.25em 0.4em; font-size: 72%; font-weight: 300; line-height: 1; text-align: center; white-space: nowrap; vertical-align: baseline; border-radius: 0.25rem; transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;}.badge-pill{padding-right: 0.6em; padding-left: 0.6em; border-radius: 10rem;}.badge-info{color: #fff; background-color: #30BCC9;}.white{border-color: #fff !important;}</style> </head> <body> <div style="width: 100%; text-align: center;"> <h1 style="background-color: #30BCC9; color: #fff; padding: 20px;">KBC FUTSAL</h1> <h5 style="color: #30BCC9;">Jl. Kerja Bakti No.22, Pondok Cina, Kota Depok, Jawa Barat 16424</h5> <hr style="border-top: 2px solid #30BCC9;"> </div><h2 style="font-weight: bold;">Laporan Pemasukan <sup class="badge badge-pill badge-info" style="font-weight: 300 !important;"> ${moment(
+        date,
+      ).format('DD MMMM YYYY')}- ${moment(dateTo).format(
+        'DD MMMM YYYY',
+      )}</sup></h2> <table cellpadding="5" style="width: 100%"> <thead> <tr style="text-align: center; background-color: #30BCC9; color: #fff;"> <td class="white">ID</td><td class="white">Tanggal</td><td class="white">Jumlah Pemasukan</td></tr></thead> <tbody> ${reportDataPemasukan}</tbody> </table> <div style="text-align: right; margin-top: 25px; margin-right: 40px;">Depok, ${moment().format(
+        'DD MMMM YYYY',
+      )}</div></body> </html>`,
+    });
+  }
+
+  renderMenuModal = () => {
+    const {isCorrect, pesan, pesanDateTo} = this.state;
+    return (
+      <Layout style={styles.modalReportContainer}>
+        <View style={styles.mainSection}>
+          <View style={styles.sectionReport}>
+            <Text category="h1" appearance="default">
+              Laporan
+            </Text>
+          </View>
+          <View style={styles.sectionReport}>
+            <Datepicker
+              placeholder="Dari Tanggal"
+              date={this.state.date}
+              onSelect={this.setDate}
+              style={styles.modalBtn}
+              icon={this.renderCalendarIcon}
+              caption={isCorrect ? pesan : null}
+              status={isCorrect ? 'danger' : null}
+            />
+          </View>
+          <View style={styles.sectionReport}>
+            <Datepicker
+              placeholder="Sampai Tanggal"
+              date={this.state.dateTo}
+              onSelect={this.setDateTo}
+              style={styles.modalBtn}
+              icon={this.renderCalendarIcon}
+              caption={isCorrect ? pesanDateTo : null}
+              status={isCorrect ? 'danger' : null}
+            />
+          </View>
+          <View style={styles.sectionReport}>
+            <Button
+              style={styles.modalBtn}
+              onPress={() => {
+                this.reportPenyewaan();
+              }}
+              icon={this.renderCancelIcon}>
+              Laporan Penyewaan
+            </Button>
+          </View>
+          <View style={styles.sectionReport}>
+            <Button
+              style={styles.modalBtn}
+              onPress={() => {
+                this.reportPenyewaanMasuk();
+              }}
+              icon={this.renderCancelIcon}>
+              Laporan Pemasukan
+            </Button>
+          </View>
+        </View>
+      </Layout>
+    );
+  };
+
   listEmpty = () => (
     <View
       style={{
@@ -380,6 +551,13 @@ class Admin extends Component {
             visible={this.state.modalVisible}>
             {this.renderAccModal()}
           </Modal>
+          <Modal
+            allowBackdrop={true}
+            backdropStyle={{backgroundColor: 'black', opacity: 0.4}}
+            onBackdropPress={this.menu}
+            visible={this.state.modalMenuVisible}>
+            {this.renderMenuModal()}
+          </Modal>
         </Layout>
       </SafeAreaView>
     );
@@ -403,6 +581,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     borderRadius: 8,
   },
+  modalReportContainer: {
+    width: wp(90),
+    height: hp(63),
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    borderRadius: 8,
+    paddingTop: 15,
+  },
   containerModalBtn: {
     flexDirection: 'row',
     marginTop: 10,
@@ -418,6 +605,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: hp(1),
+  },
+  sectionReport: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
 
