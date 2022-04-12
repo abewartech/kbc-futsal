@@ -128,11 +128,11 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.kbc"
+        applicationId "com.kbcfutsal"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "3.1"
     }
     splits {
         abi {
@@ -150,10 +150,10 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            storeFile file('your_key_name.keystore')
+            storePassword 'qwerty'
+            keyAlias 'your_key_alias'
+            keyPassword 'qwerty'
         }
     }
     buildTypes {
