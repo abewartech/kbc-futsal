@@ -1,8 +1,8 @@
 platform :ios, '9.0'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
-target 'kbc' do
-  # Pods for kbc
+target 'kbcfutsal' do
+  # Pods for kbcfutsal
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -36,7 +36,7 @@ target 'kbc' do
 
 
 
-  target 'kbcTests' do
+  target 'kbcfutsalTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -44,10 +44,10 @@ target 'kbc' do
   use_native_modules!
 end
 
-target 'kbc-tvOS' do
-  # Pods for kbc-tvOS
+target 'kbcfutsal-tvOS' do
+  # Pods for kbcfutsal-tvOS
 
-  target 'kbc-tvOSTests' do
+  target 'kbcfutsal-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end
