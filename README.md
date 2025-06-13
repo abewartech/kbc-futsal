@@ -1,5 +1,10 @@
 <!-- GitAds-Verify: M2PYCTF3PHEKDOG39CACDEN1Y624GWX6 -->
 
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=abewartech/kbc-futsal@github)](https://gitads.dev/v1/ad-track?source=abewartech/kbc-futsal@github)
+
+
+
 # kbc-futsal
 
 Project Skripsi UNINDRA ~~ APLIKASI PENYEWAAN ONLINE LAPANGAN FUTSAL BERBASIS ANDROID pada KBC Futsal
@@ -43,3 +48,8 @@ This project is licensed under the MIT License
 
 
 [![Anurag's github stats](https://github-readme-stats.vercel.app/api?username=abewartech)](https://github.com/abewartech/github-readme-stats)
+
+## GitAds Sponsored
+[![Sponsored by GitAds](https://gitads.dev/v1/ad-serve?source=abewartech/kbc-futsal@github)](https://gitads.dev/v1/ad-track?source=abewartech/kbc-futsal@github)
+
+
