@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 import {mapping, light as lightTheme} from '@eva-design/eva';
 import {EvaIconsPack} from '@ui-kitten/eva-icons';
 import {ApplicationProvider, IconRegistry} from '@ui-kitten/components';

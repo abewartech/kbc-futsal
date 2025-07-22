@@ -3,7 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import {Text} from '@ui-kitten/components';
 import {observer, inject} from 'mobx-react';
 import Spinner from 'react-native-spinkit';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Color from '../../constants/Color';
 
 class Splash extends React.Component {
