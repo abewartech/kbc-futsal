@@ -16,8 +16,17 @@ class Splash extends React.Component {
   };
 
   componentDidMount() {
+    this._timeouts = [];
     this._getData();
   }
+
+  componentWillUnmount() {
+    (this._timeouts || []).forEach((id) => clearTimeout(id));
+  }
+
+  _schedule = (fn, ms) => {
+    this._timeouts.push(setTimeout(fn, ms));
+  };
 
   _getData = () => {
     let user = ['username', 'role', 'token', 'id'];
@@ -33,17 +42,17 @@ class Splash extends React.Component {
         const id = result[3][1];
 
         if (token === null) {
-          setTimeout(() => {
+          this._schedule(() => {
             navigate('AuthStack');
           }, 1500);
         } else {
           credentialStore.setUserCredentials(id, username, role, token);
           if (role === 1) {
-            setTimeout(() => {
+            this._schedule(() => {
               navigate('Home');
             }, 2000);
           } else {
-            setTimeout(() => {
+            this._schedule(() => {
               navigate('Admin');
             }, 2000);
           }
