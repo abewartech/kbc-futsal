@@ -10,5 +10,8 @@ import App from '../App';
 import renderer from 'react-test-renderer';
 
 it('renders correctly', () => {
-  renderer.create(<App />);
+  const tree = renderer.create(<App />);
+  // Unmount to clear pending Splash-screen navigation timers.
+  // Otherwise they fire after the Jest environment tears down and crash the worker.
+  tree.unmount();
 });
