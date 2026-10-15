@@ -91,7 +91,7 @@ class SignupForm extends Component {
             autoCapitalize="none"
             icon={this.renderUserIcon}
             value={name}
-            onChangeText={name => this.setState({name, isnameEmpty: false})}
+            onChangeText={(name) => this.setState({name, isnameEmpty: false})}
             placeholder="Nama Team"
             style={styles.input}
             caption={isnameEmpty ? 'Isi Nama terlebih dahulu' : null}
@@ -102,7 +102,9 @@ class SignupForm extends Component {
             autoCapitalize="none"
             icon={this.renderEmailIcon}
             value={email}
-            onChangeText={email => this.setState({email, isemailEmpty: false})}
+            onChangeText={(email) =>
+              this.setState({email, isemailEmpty: false})
+            }
             placeholder="Email"
             style={styles.input}
             caption={isemailEmpty ? 'Isi Email terlebih dahulu' : null}
@@ -113,7 +115,7 @@ class SignupForm extends Component {
             autoCapitalize="none"
             icon={this.renderPassIcon}
             value={password}
-            onChangeText={password =>
+            onChangeText={(password) =>
               this.setState({password, isPassEmpty: false})
             }
             textContentType="password"
@@ -128,7 +130,7 @@ class SignupForm extends Component {
             autoCapitalize="none"
             icon={this.renderPassIcon}
             value={conPassword}
-            onChangeText={conPassword =>
+            onChangeText={(conPassword) =>
               this.setState({conPassword, isConEmpty: false})
             }
             textContentType="password"

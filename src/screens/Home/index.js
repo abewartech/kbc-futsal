@@ -62,7 +62,7 @@ class Home extends Component {
     });
   }
 
-  renderRightControl = props => {
+  renderRightControl = (props) => {
     return (
       <View>
         <TopNavigationAction
@@ -73,14 +73,14 @@ class Home extends Component {
     );
   };
 
-  renderLogoutIcon = style => {
+  renderLogoutIcon = (style) => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
   };
 
   logoutHandler = () => {
     let userKeys = ['username', 'role', 'token'];
     const {credentialStore} = this.props.rootStore;
-    AsyncStorage.multiRemove(userKeys, err => {
+    AsyncStorage.multiRemove(userKeys, (err) => {
       if (err) {
         alert(err);
       } else {
@@ -103,7 +103,7 @@ class Home extends Component {
     this.setState({modalTgl, modalVisible: false});
   };
 
-  onChangeText = jam => {
+  onChangeText = (jam) => {
     this.setState({jam});
   };
 
@@ -151,7 +151,7 @@ class Home extends Component {
       <Layout level="3" style={styles.modalContainer}>
         <DatePicker
           date={this.state.date}
-          onDateChange={date => this.setState({date})}
+          onDateChange={(date) => this.setState({date})}
           locale={'id'}
           minimumDate={new Date(Date.now())}
           minuteInterval={5}

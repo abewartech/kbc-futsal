@@ -50,24 +50,24 @@ class Cek extends Component {
       },
       {timeout: Endpoint.timeout},
     )
-      .then(res => res.json())
-      .then(booking => {
+      .then((res) => res.json())
+      .then((booking) => {
         if (booking.success) {
           let selectedMonth = moment(this.state.date).format('YYYY-MM-DD');
           let data = booking.message.filter(
-            data => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
+            (data) => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
           );
           this.setState({bookingFilter: data, bookingList: booking.message});
         } else {
           alert(booking.message);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         alert(error.toString().split('TypeError: ')[1]);
       });
   }
 
-  renderRightControl = props => {
+  renderRightControl = (props) => {
     return (
       <View>
         <TopNavigationAction
@@ -78,14 +78,14 @@ class Cek extends Component {
     );
   };
 
-  renderLogoutIcon = style => {
+  renderLogoutIcon = (style) => {
     return <Icon name="log-out" size={23} {...style} fill="#fff" />;
   };
 
   logoutHandler = () => {
     let userKeys = ['username', 'role', 'token'];
     const {credentialStore} = this.props.rootStore;
-    AsyncStorage.multiRemove(userKeys, err => {
+    AsyncStorage.multiRemove(userKeys, (err) => {
       if (err) {
         alert(err);
       } else {
@@ -100,9 +100,7 @@ class Cek extends Component {
 
   renderItem = ({item, index}) => {
     const jam = moment(item.date).format('HH:mm');
-    const until = moment(item.date)
-      .add(item.jam, 'hours')
-      .format('HH:mm');
+    const until = moment(item.date).add(item.jam, 'hours').format('HH:mm');
     return (
       <ListItem
         title={`${item.namaTeam}`}
@@ -114,10 +112,10 @@ class Cek extends Component {
     );
   };
 
-  onDateChange = date => {
+  onDateChange = (date) => {
     let selectedMonth = moment(date).format('YYYY-MM-DD');
     let data = this.state.bookingList.filter(
-      data => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
+      (data) => moment(data.date).format('YYYY-MM-DD') === selectedMonth,
     );
     this.setState({bookingFilter: data, date});
   };
@@ -134,8 +132,7 @@ class Cek extends Component {
         shape="square"
         size="giant"
         source={{
-          uri:
-            'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
+          uri: 'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
         }}
       />
       <Text>No Data</Text>
@@ -156,7 +153,7 @@ class Cek extends Component {
         <Layout>
           <DatePicker
             date={this.state.date}
-            onDateChange={date => this.onDateChange(date)}
+            onDateChange={(date) => this.onDateChange(date)}
             locale={'id'}
             mode={'date'}
             style={{width: wp(100), height: hp(30)}}

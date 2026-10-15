@@ -15,7 +15,7 @@ export default {
   cond: jest.fn(),
   interpolate: jest.fn(),
   View: 'View',
-  Extrapolate: { CLAMP: jest.fn() },
+  Extrapolate: {CLAMP: jest.fn()},
   Transition: {
     Together: 'Together',
     Out: 'Out',

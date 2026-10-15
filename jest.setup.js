@@ -1,4 +1,5 @@
 // Jest setup file
+/* eslint-env jest */
 // Mock react-native-reanimated
 jest.mock('react-native-reanimated', () => {
   const Reanimated = require('react-native-reanimated/mock');
@@ -18,7 +19,10 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(() => Promise.resolve()),
   clear: jest.fn(() => Promise.resolve()),
   multiGet: jest.fn((keys, callback) => {
-    callback(null, keys.map(key => [key, null]));
+    callback(
+      null,
+      keys.map((key) => [key, null]),
+    );
   }),
   multiSet: jest.fn(() => Promise.resolve()),
   multiRemove: jest.fn(() => Promise.resolve()),
