@@ -8,7 +8,7 @@ on:
 
 jobs:
   node:
-    name: Node 16
+    name: Node 18
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '18'
           cache: npm
 
       - name: Install npm dependencies
