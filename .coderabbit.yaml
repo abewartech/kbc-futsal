@@ -1,0 +1,7 @@
+# CodeRabbit AI code review — config ini DORMANT sampai GitHub App di-install:
+# https://github.com/marketplace/coderabbitai (gratis untuk repo publik)
+language: "id-ID"
+profile: "chill"
+reviews:
+  auto_review: true
+  ignore_title_keywords: ["WIP", "wip", "[no-review]"]

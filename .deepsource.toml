@@ -1,0 +1,11 @@
+# DeepSource static analysis — config ini DORMANT sampai GitHub App di-install:
+# https://app.deepsource.com (gratis untuk open source)
+version = 1
+
+exclude_patterns = [
+  "vendor/**",
+  "node_modules/**",
+  "dist/**",
+  "build/**",
+  "*.min.js",
+]
