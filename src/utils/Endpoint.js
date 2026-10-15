@@ -1,5 +1,5 @@
 const Endpoint = {
-  prod: `https://v2.memo.web.id`,
+  prod: 'https://v2.memo.web.id',
   timeout: 3000,
 };
 

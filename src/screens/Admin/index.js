@@ -39,7 +39,6 @@ class Admin extends Component {
       modalVisible: false,
       noTagihan: '',
       namaTeam: '',
-      date: '',
       jam: '',
       image: '',
       refresh: false,
@@ -205,8 +204,7 @@ class Admin extends Component {
     <Avatar
       style={{width: 30, height: 25}}
       source={{
-        uri:
-          'https://akveo.github.io/eva-icons/outline/png/128/arrow-ios-forward-outline.png',
+        uri: 'https://akveo.github.io/eva-icons/outline/png/128/arrow-ios-forward-outline.png',
       }}
     />
   );
@@ -331,9 +329,10 @@ class Admin extends Component {
                   uri: `https://v2.memo.web.id/images/${image}`,
                 }
               : {
-                  uri: `https://v2.memo.web.id/images/default.jpg`,
+                  uri: 'https://v2.memo.web.id/images/default.jpg',
                 }
-          }></Image>
+          }
+        />
         <Text appearance="hint">Bukti Transfer</Text>
         <Button
           style={styles.modalBtn}
@@ -510,8 +509,7 @@ class Admin extends Component {
         shape="square"
         size="giant"
         source={{
-          uri:
-            'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
+          uri: 'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
         }}
       />
       <Text>No Data</Text>

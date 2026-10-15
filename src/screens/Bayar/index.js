@@ -5,6 +5,7 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  Platform,
 } from 'react-native';
 import {
   Layout,

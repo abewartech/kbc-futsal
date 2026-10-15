@@ -66,7 +66,9 @@ class LoginForm extends Component {
             autoCapitalize="none"
             icon={this.renderUserIcon}
             value={email}
-            onChangeText={email => this.setState({email, isemailEmpty: false})}
+            onChangeText={(email) =>
+              this.setState({email, isemailEmpty: false})
+            }
             placeholder="Email"
             style={styles.input}
             caption={isemailEmpty ? 'Please Input Your Email' : null}
@@ -78,7 +80,7 @@ class LoginForm extends Component {
             icon={this.renderPasswordIcon}
             onIconPress={this.onPasswordIconPress}
             value={password}
-            onChangeText={password =>
+            onChangeText={(password) =>
               this.setState({password, isPassEmpty: false})
             }
             textContentType="password"

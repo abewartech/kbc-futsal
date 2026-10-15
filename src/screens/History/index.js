@@ -139,8 +139,7 @@ class History extends Component {
         shape="square"
         size="giant"
         source={{
-          uri:
-            'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
+          uri: 'https://akveo.github.io/eva-icons/outline/png/128/slash-outline.png',
         }}
       />
       <Text>No Data</Text>
