@@ -58,42 +58,11 @@
     }
   },
   "overrides": {
-    "@xmldom/xmldom": "0.8.15",
-    "brace-expansion": "1.1.21",
-    "browserslist": "^4.28.7",
-    "flatted": "^3.4.2",
-    "joi": "^17.13.7",
-    "js-yaml": "3.15.0",
-    "lodash": "^4.17.23",
-    "minimatch": "3.1.4",
-    "micromatch": "4.0.8",
-    "picomatch": "2.3.2",
-    "shell-quote": "^1.8.4",
-    "ws": "6.2.4",
-    "@jest/core": {
-      "glob": "10.5.0"
-    },
     "eslint": {
-      "js-yaml": "4.2.0"
+      "js-yaml": "4.3.2"
     },
-    "glob@10.5.0": {
-      "minimatch": "9.0.7",
-      "brace-expansion": "2.1.7"
-    },
-    "isomorphic-fetch": {
-      "node-fetch": "2.6.7"
-    },
-    "jest-util@30.0.5": {
-      "picomatch": "4.0.4"
-    },
-    "metro": {
-      "ws": "7.5.11"
-    },
-    "@react-native-community/cli-server-api": {
-      "ws": "7.5.11"
-    },
-    "react-devtools-core": {
-      "ws": "7.5.11"
+    "@eslint/eslintrc": {
+      "js-yaml": "4.3.2"
     }
   }
 }
